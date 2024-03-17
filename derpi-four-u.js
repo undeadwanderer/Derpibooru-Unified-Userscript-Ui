@@ -1,13 +1,13 @@
 // ==UserScript==
 // @namespace     https://github.com/marktaiwan/
 // @exclude       *
-// @author        Marker | Undead Wanderer
+// @author        Marker
 
 // ==UserLibrary==
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.3.1 | 2024-03-17
+// @version       1.2.3
 
 // ==/UserScript==
 
@@ -156,7 +156,7 @@ var ConfigManager = (function () {
   }
 
   function initStorage() {
-    if (!GM.getValue(LIBRARY_ID)) {
+    if (!localStorage.getItem(LIBRARY_ID)) {
       const storage = {};
       storage[LIBRARY_ID] = {};
       setStorage(storage);
@@ -164,11 +164,11 @@ var ConfigManager = (function () {
   }
 
   function getStorage() {
-    return JSON.parse(GM.getValue(LIBRARY_ID));
+    return JSON.parse(localStorage.getItem(LIBRARY_ID));
   }
 
   function setStorage(obj) {
-    GM.setValue(LIBRARY_ID, JSON.stringify(obj));
+    localStorage.setItem(LIBRARY_ID, JSON.stringify(obj));
   }
 
   function storeSettings(scriptId, key, value) {
