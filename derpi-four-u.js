@@ -7,7 +7,7 @@
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.3
+// @version       1.2.5
 
 // ==/UserScript==
 
@@ -21,9 +21,9 @@
 //    Failed to read the 'localStorage' property from 'Window': The document is sandboxed and lacks the 'allow-same-origin' flag.
 //
 // This error occurs when script is executed inside an iframe, such as when the userscript didn't include the @noframes imperative.
-if (window.self !== window.top) return;  // Exit when inside iframe
+if (window.self !== window.top) return; // Exit when inside iframe
 
-var ConfigManager = (function () {
+var ConfigManager = (function() {
   'use strict';
 
   const LIBRARY_NAME = 'Derpibooru Unified Userscript UI Utility';
@@ -50,6 +50,18 @@ var ConfigManager = (function () {
 }
 .${LIBRARY_ID}--unsaved_warning.${LIBRARY_ID}--hidden {
   opacity: 0;
+}
+.${LIBRARY_ID}--export_button {
+  font-size: 13px;
+  margin-right: 6px;
+}
+.${LIBRARY_ID}--import_button {
+  font-size: 13px;
+  margin-right: 6px;
+}
+.${LIBRARY_ID}--input_button {
+  opacity: 0;
+  width: 0px;
 }
 .${LIBRARY_ID}--reset_button {
   font-size: 13px;
@@ -146,12 +158,16 @@ var ConfigManager = (function () {
       // additional dependency for radio and dropdown input type
       if ((param == 'radio' || param == 'dropdown') &&
         (obj.selections === undefined || obj.selections.length <= 0)) {
-          array.push('selections');
+        array.push('selections');
       }
     }
 
     if (array.length > 0) {
-      throw {type: 'missing params', arr: array, o: obj};
+      throw {
+        type: 'missing params',
+        arr: array,
+        o: obj
+      };
     }
   }
 
@@ -219,7 +235,7 @@ var ConfigManager = (function () {
   }
 
   function bindSaveHandler(saveBtn) {
-    saveBtn.addEventListener('click', function () {
+    saveBtn.addEventListener('click', function() {
       const storage = getStorage();
       const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
       const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
@@ -241,7 +257,7 @@ var ConfigManager = (function () {
   }
 
   function bindResetHandler(resetBtn) {
-    resetBtn.addEventListener('click', function (e) {
+    resetBtn.addEventListener('click', function(e) {
       e.preventDefault();
 
       const btn = e.target;
@@ -273,6 +289,102 @@ var ConfigManager = (function () {
       checkForUnsavedChanges();
     });
   }
+  // NEW: Export btn click function
+  function bindExportHandler(exportBtn) {
+
+    exportBtn.addEventListener('click', function(e) {
+      const storage = getStorage();
+
+      const btn = e.target;
+      const scriptId = btn.dataset.scriptId;
+      // modify selector to target only a single script container
+      if (exportBtn.parentElement.dataset.exportAll !== '1') {
+        exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
+        exportBtn.setAttribute('download', `${scriptId}.json`);
+      } else if (exportBtn.parentElement.dataset.exportAll === '1') {
+        exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
+        exportBtn.setAttribute('download', `${LIBRARY_ID}.json`);
+      }
+      const prevButtonValue = exportBtn.innerHTML;
+      exportBtn.innerHTML = 'Saved!';
+      setTimeout(function(){
+        exportBtn.innerHTML = prevButtonValue;
+        exportBtn.setAttribute('href', '#');
+      }, 5000);
+    });
+
+  }
+
+  // NEW: Import btn click function
+  function bindImportHandler(importBtn) {
+
+    importBtn.addEventListener('click', function(e) {
+      const importInput = importBtn.parentElement.querySelector('input[type=file]');
+      importInput.click();
+      importInput.onchange = function() {
+        const file = importInput.files[0];
+        const btn = e.target;
+        const scriptId = btn.dataset.scriptId;
+        const reader = new FileReader();
+        reader.onload = function() {
+          const storage = getStorage();
+          const importedSettings = JSON.parse(reader.result);
+          if (importBtn.parentElement.dataset.importAll !== '1') {
+            for (const key of Object.keys(importedSettings)) {
+
+              storage[scriptId][key] = importedSettings[key];
+            }
+          } else if (importBtn.parentElement.dataset.importAll === '1') {
+            for (const scriptIds of Object.keys(importedSettings)) {
+              for (const key of Object.keys(importedSettings[scriptIds])) {
+                if (storage[scriptIds] == undefined) {
+                  storage[scriptIds] = {}
+                };
+                storage[scriptIds][key] = importedSettings[scriptIds][key];
+              }
+            }
+          }
+          setStorage(storage);
+          // Redraw elements with new values
+          const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
+          const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
+
+          for (const container of scriptContainers) {
+            const scriptId = container.dataset.scriptId;
+            const inputElements = container.querySelectorAll('[data-entry-key]');
+
+            for (const input of inputElements) {
+              const key = input.dataset.entryKey;
+              const propType = input.dataset.entryPropertyType;
+              const elemType = input.getAttribute('type')
+              let inputValue = input[propType];
+
+                if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
+                inputValue = Number.parseFloat(storage[scriptId][key]);
+              } else if (elemType == 'radio') { // input[type="radio"] needs checking which of the child radio boxes is checked.
+                if (inputValue == storage[scriptId][key]) {
+                  inputValue.parentNode.checked = true;
+                }
+                // }
+              } else {
+                inputValue = storage[scriptId][key];
+              }
+              input[propType] = inputValue;
+            }
+          };
+        };
+        if (file) {
+          reader.readAsText(file);
+        }
+        const prevButtonValue = importBtn.innerHTML;
+        importBtn.innerHTML = 'Applied!';
+        setTimeout(function(){
+          importBtn.innerHTML = prevButtonValue;
+        }, 5000);
+      };
+    });
+
+  }
 
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
@@ -293,30 +405,78 @@ var ConfigManager = (function () {
     // Create tab
     const tabHeader = composeElement({
       tag: 'a',
-      attributes: {dataClickTab: SETTINGS_TAB_ID, href: '#'},
+      attributes: {
+        dataClickTab: SETTINGS_TAB_ID,
+        href: '#'
+      },
       text: 'Userscript'
     });
 
     // Create tab content
     const tabContent = composeElement({
       tag: 'div',
-      attributes: {class: 'block__tab hidden', dataTab: SETTINGS_TAB_ID},
+      attributes: {
+        class: 'block__tab hidden',
+        dataTab: SETTINGS_TAB_ID
+      },
       children: [{
         tag: 'div',
-        attributes: {class: 'block block--fixed block--primary flex'},
+        attributes: {
+          class: 'block block--fixed block--primary flex'
+        },
         children: [{
           tag: 'span',
           text: 'Settings on this tab are managed by installed userscripts and stored locally.'
-        },{
+        }, {
+          // NEW: Global export button
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
+          attributes: {
+            class: `flex__right ${LIBRARY_ID}--export_button`,
+            dataExportAll: '1'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#'},
+            attributes: {
+              href: '#'
+            },
+            text: 'Export all settings'
+          }]
+        }, {
+          // NEW: Global import button
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--import_button`,
+            dataImportAll: '1'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#'
+            },
+            text: 'Import data'
+          }, {
+            tag: 'input',
+            attributes: {
+              type: 'file',
+              accept: '.json',
+              class: `${LIBRARY_ID}--input_button`
+            },
+          }]
+        }, {
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--reset_button`,
+            dataResetAll: '1'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#'
+            },
             text: 'Reset all settings'
           }]
         }]
-      },{
+      }, {
         tag: 'div',
         attributes: {
           class: `block block--fixed block--warning ${LIBRARY_ID}--unsaved_warning ${LIBRARY_ID}--hidden`
@@ -331,6 +491,10 @@ var ConfigManager = (function () {
       bindSaveHandler(document.querySelector('form[action="/settings"] button[type="submit"], form[action="/settings"] input[type="submit"]'));
 
       bindResetHandler(tabContent.querySelector(`.${LIBRARY_ID}--reset_button>a`));
+
+      bindExportHandler(tabContent.querySelector(`.${LIBRARY_ID}--export_button>a`));
+
+      bindImportHandler(tabContent.querySelector(`.${LIBRARY_ID}--import_button>a`));
 
       // Insert tab header and content
       settingTable.querySelector('.block__header--js-tabbed').appendChild(tabHeader);
@@ -370,28 +534,80 @@ var ConfigManager = (function () {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
     const ele = composeElement({
       tag: 'div',
-      attributes: {class: `block ${LIBRARY_ID}__container`, dataScriptId: id},
+      attributes: {
+        class: `block ${LIBRARY_ID}__container`,
+        dataScriptId: id
+      },
       children: [{
         tag: 'div',
-        attributes: {class: 'block__header block__header__item flex'},
+        attributes: {
+          class: 'block__header block__header__item flex'
+        },
         children: [{
           tag: 'span',
           text: name
-        },{
+        }, {
+          // NEW: Export settings button
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
+          attributes: {
+            class: `flex__right ${LIBRARY_ID}--export_button`,
+            dataExportAll: '0'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
+            text: 'Export'
+          }]
+        }, {
+          // NEW: Import settings button
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--import_button`,
+            dataImportAll: '0'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
+            text: 'Import'
+          }, {
+            tag: 'input',
+            attributes: {
+              type: 'file',
+              accept: '.json',
+              class: `${LIBRARY_ID}--input_button`
+            },
+          }]
+        }, {
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--reset_button`,
+            dataResetAll: '0'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
             text: 'Default'
           }]
         }]
       }, {
         tag: 'div',
-        attributes: {class: 'block__content'}
+        attributes: {
+          class: 'block__content'
+        }
       }]
     });
     bindResetHandler(ele.querySelector(`.${LIBRARY_ID}--reset_button>a`));
+    bindExportHandler(ele.querySelector(`.${LIBRARY_ID}--export_button>a`));
+    bindImportHandler(ele.querySelector(`.${LIBRARY_ID}--import_button>a`));
 
     appendDescription(ele.lastChild, description);
     ele.addEventListener('change', checkForUnsavedChanges); // attach handler to show warning when input value changed
@@ -402,7 +618,10 @@ var ConfigManager = (function () {
   function appendFieldset(name, id, description, parent) {
     const ele = composeElement({
       tag: 'fieldset',
-      attributes: {class: `field ${LIBRARY_ID}__subheader`, dataFieldId: id},
+      attributes: {
+        class: `field ${LIBRARY_ID}__subheader`,
+        dataFieldId: id
+      },
       children: [{
         tag: 'legend',
         text: name
@@ -417,7 +636,9 @@ var ConfigManager = (function () {
 
     const ele = composeElement({
       tag: 'div',
-      attributes: {class: 'fieldlabel'},
+      attributes: {
+        class: 'fieldlabel'
+      },
       children: [{
         tag: 'i',
         text: string
@@ -427,7 +648,7 @@ var ConfigManager = (function () {
     // Headers and subheaders require additional styling, add class for CSS to target
     if ((node.parentElement && node.parentElement.classList.contains(`${LIBRARY_ID}__container`)) ||
       node.classList.contains(`${LIBRARY_ID}__subheader`)) {
-        ele.classList.add(`${LIBRARY_ID}__section__description`);
+      ele.classList.add(`${LIBRARY_ID}__section__description`);
     }
 
     return node.appendChild(ele);
@@ -456,16 +677,23 @@ var ConfigManager = (function () {
     this.parentElement = parent;
   }
 
-  ConfigObject.prototype.addFieldset = function (title, id, fieldDescription) {
+  ConfigObject.prototype.addFieldset = function(title, id, fieldDescription) {
     return Object.freeze(
       new ConfigObject(title, id, this.scriptId, this.pageElement, fieldDescription, appendFieldset)
     );
   };
 
-  ConfigObject.prototype.registerSetting = function (entryConfig) {
+  ConfigObject.prototype.registerSetting = function(entryConfig) {
     try {
       validateParameters(['title', 'key', 'type', 'defaultValue'], entryConfig);
-      const {title: entryTitle, key: entryKey, type, defaultValue, description, selections} = entryConfig;
+      const {
+        title: entryTitle,
+        key: entryKey,
+        type,
+        defaultValue,
+        description,
+        selections
+      } = entryConfig;
       const scriptId = this.scriptId;
       let storedValue = retrieveSettings(scriptId, entryKey);
       if (storedValue === undefined) {
@@ -484,7 +712,10 @@ var ConfigManager = (function () {
       // entry container is common for all input types
       const ele = composeElement({
         tag: 'div',
-        attributes: {class: `field ${LIBRARY_ID}__entry`, dataEntryId: namespacedKey}
+        attributes: {
+          class: `field ${LIBRARY_ID}__entry`,
+          dataEntryId: namespacedKey
+        }
       });
       switch (type) {
         case 'checkbox': {
@@ -492,8 +723,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 id: namespacedKey,
@@ -511,8 +744,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 class: 'input',
@@ -527,13 +762,40 @@ var ConfigManager = (function () {
           }));
           break;
         }
+        // NEW: Text area option
+        case 'textarea': {
+          ele.appendChild(composeElement({
+            children: [{
+              tag: 'label',
+              text: entryTitle,
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
+              tag: 'textarea',
+              attributes: {
+                class: 'input input--wide',
+                id: namespacedKey,
+                type: 'text',
+                autocomplete: 'off',
+                dataDefaultValue: defaultValue,
+                dataEntryKey: entryKey,
+                dataEntryPropertyType: 'value'
+              }
+            }]
+          }));
+          break;
+        }
+        // End of NEW: Text area option
         case 'number': {
           ele.appendChild(composeElement({
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 class: 'input',
@@ -569,16 +831,16 @@ var ConfigManager = (function () {
            *  setter and getter to their containers to emulate the 'value' property
            */
           Object.defineProperty(buttonSet, 'value', {
-            get: function () {
+            get: function() {
               return this.querySelector('input:checked').value;
             },
-            set: function (val) {
+            set: function(val) {
               this.querySelector(`input[value="${val}"]`).checked = true;
             }
           });
           let n = 1;
           for (const selection of selections) {
-            const selectionId = namespacedKey + '-' + n;  // Generate unique ID for each radio button
+            const selectionId = namespacedKey + '-' + n; // Generate unique ID for each radio button
             n = n + 1;
             const span = composeElement({
               tag: 'span',
@@ -592,7 +854,9 @@ var ConfigManager = (function () {
                 }
               }, {
                 tag: 'label',
-                attributes: {for: selectionId},
+                attributes: {
+                  for: selectionId
+                },
                 text: selection.text
               }]
             });
@@ -603,7 +867,9 @@ var ConfigManager = (function () {
         case 'dropdown': {
           ele.appendChild(composeElement({
             tag: 'label',
-            attributes: {for: namespacedKey},
+            attributes: {
+              for: namespacedKey
+            },
             text: entryTitle
           }));
           // Append dropdown
@@ -620,7 +886,9 @@ var ConfigManager = (function () {
           for (const selection of selections) {
             selectElement.appendChild(composeElement({
               tag: 'option',
-              attributes: {value: selection.value},
+              attributes: {
+                value: selection.value
+              },
               text: selection.text
             }));
           }
@@ -646,15 +914,15 @@ var ConfigManager = (function () {
     }
   };
 
-  ConfigObject.prototype.setEntry = function (key, value) {
+  ConfigObject.prototype.setEntry = function(key, value) {
     storeSettings(this.scriptId, key, value);
   };
 
-  ConfigObject.prototype.getEntry = function (key) {
+  ConfigObject.prototype.getEntry = function(key) {
     return retrieveSettings(this.scriptId, key);
   };
 
-  ConfigObject.prototype.deleteEntry = function (key) {
+  ConfigObject.prototype.deleteEntry = function(key) {
     const storage = getStorage();
     const scriptId = this.scriptId;
     delete storage[scriptId][key];
