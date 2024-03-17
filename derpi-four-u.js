@@ -156,7 +156,7 @@ var ConfigManager = (function () {
   }
 
   function initStorage() {
-    if (!GM.getValue(LIBRARY_ID)) {
+    if (!GM.getValue(LIBRARY_ID, [])) {
       const storage = {};
       storage[LIBRARY_ID] = {};
       setStorage(storage);
@@ -164,7 +164,7 @@ var ConfigManager = (function () {
   }
 
   function getStorage() {
-    return JSON.parse(GM.getValue(LIBRARY_ID));
+    return JSON.parse(GM.getValue(LIBRARY_ID, []));
   }
 
   function setStorage(obj) {
