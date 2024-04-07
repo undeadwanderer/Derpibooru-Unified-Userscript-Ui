@@ -7,7 +7,7 @@
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.3.1
+// @version       1.2.3
 
 // ==/UserScript==
 
@@ -527,29 +527,6 @@ var ConfigManager = (function () {
           }));
           break;
         }
-        // NEW: Text area option
-        case 'textarea': {
-          ele.appendChild(composeElement({
-            children: [{
-              tag: 'label',
-              text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
-              tag: 'textarea',
-              attributes: {
-                class: 'input input--wide',
-                id: namespacedKey,
-                type: 'textarea',
-                autocomplete: 'off',
-                dataDefaultValue: defaultValue,
-                dataEntryKey: entryKey,
-                dataEntryPropertyType: 'value'
-              }
-            }]
-          }));
-          break;
-        }
-        // End of NEW: Text area option
         case 'number': {
           ele.appendChild(composeElement({
             children: [{
