@@ -1,4 +1,4 @@
-# Derpibooru Unified Userscript UI Utility
+# Derpibooru Unified Userscript UI Utility (Modified)
 ## Introduction
 *Derpibooru Unified Userscript UI Utility*, or *Derpi4U* for short, is a simple userscript library for script authors to implement user-changeable settings on [Derpibooru](https://derpibooru.org/).
 
@@ -8,10 +8,13 @@ Settings for the various userscripts that implements this library will be placed
 
 [![Screenshot](../master/Screenshots/settings-ui-thumbnail.jpeg)](https://raw.githubusercontent.com/marktaiwan/Derpibooru-Unified-Userscript-Ui/master/Screenshots/settings-ui.png)
 
+## Changes from the original script:
+- Added the textarea config element type.
+
 ## Quick Start Guide
 First, add Derpi4U to your userscript with
 ````
-// @require  https://raw.githubusercontent.com/marktaiwan/Derpibooru-Unified-Userscript-Ui/master/derpi-four-u.js
+// @require  https://raw.githubusercontent.com/undeadwanderer/Derpibooru-Unified-Userscript-Ui/master/derpi-four-u.js
 ````
 
 For Firefox users, if you only need your script to work on Violentmonkey and does not need access to unsandboxed `window` object, you can use the injection mode `@inject-into content`. Otherwise, the installation of [one additional extension](https://derpibooru.org/meta/userscripts-customization/post/4354787#post_4354787) required.
@@ -74,18 +77,19 @@ Returns the HTML element of the entry container, regardless if it's inserted or 
    The key should follow the JavaScript naming restrictions. It must begin with an ASCII letter (upper or lower case) or an underscore (`_`) character.
     Subsequent characters must be letters, numbers, hyphens (`-`) or underscores (`_`).
  - `description`:  [Optional] A `String` that is displayed below the entry title and input element pair
- - `defaultValue`: The default value associated with the setting entry.
- - <a name="entry_type" href="#entry_type">`type`</a>: A `String` of either `checkbox`, `text`, `number`, `radio`, or `dropdown`.
+ - `defaultValue`: The default value associated with the setting entry. For the `textarea` type use `\n` for newline.
+ - <a name="entry_type" href="#entry_type">`type`</a>: A `String` of either `checkbox`, `text`, `textarea`, `number`, `radio`, or `dropdown`.
    
    The value of `type` determines which input element to use on the Content Settings panel, and the data type used to store it:
    
-   | Type       | Stored Data Type | HTML Element                     |
-   | ---------- | ---------------- | -------------------------------- |
-   | `checkbox` | Boolean          | `<input>` with `type="checkbox"` |
-   | `text`     | String           | `<input>` with `type="text"`     |
-   | `number`   | Number           | `<input>` with `type="number"`   |
-   | `radio`    | String           | `<input>` with `type="radio"`    |
-   | `dropdown` | String           | `<select>`                       |
+   | Type       | Stored Data Type | HTML Element                        |
+   | ---------- | ---------------- | ----------------------------------- |
+   | `checkbox` | Boolean          | `<input>`    with `type="checkbox"` |
+   | `text`     | String           | `<input>`    with `type="text"`     |
+   | `text`     | String           | `<textarea>` with `type="text"`     |
+   | `number`   | Number           | `<input>`    with `type="number"`   |
+   | `radio`    | String           | `<input>`    with `type="radio"`    |
+   | `dropdown` | String           | `<select>`                          |
    
  - `selections`: Required when the `type` property is of `radio` or `dropdown`.
    
