@@ -337,11 +337,19 @@ var ConfigManager = (function () {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
-          storage[scriptId] = JSON.stringify(importedSettings);
+          for (const key of Object.Keys(storage).length) {
+            storage[scriptId][key] = importedSettings[key];
+          }
+          
         } else if (importBtn.parentElement.dataset.importAll === '1') {
           console.log(`Writing settings for ${LIBRARY_ID}`);
-          storage = JSON.stringify(importedSettings);
-        };
+          for (const scriptIds of storage.length){
+            for (const key of Object.Keys(storage[scriptIds]).length) {
+              storage[scriptIds][key] = importedSettings[scriptIds][key];
+            }
+          }
+          // storage = JSON.stringify(importedSettings);
+        }
         setStorage(storage);
         console.log('input text is:' + reader.result);
       };
