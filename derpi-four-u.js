@@ -188,7 +188,8 @@ var ConfigManager = (function () {
   // !NEW! Export functions
   // function exportSettingsGlobal() {
     // const storage = getStorage();
-    // copy(JSON.stringify(storage));
+    // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storage));;
+    
   // }
 
   // function exportSettings(scriptId) {
@@ -290,6 +291,7 @@ var ConfigManager = (function () {
   }
 
   function bindExportHandler(exportBtn) {
+    
     exportBtn.addEventListener('click', function (e) {
       const storage = getStorage();
 
@@ -300,11 +302,15 @@ var ConfigManager = (function () {
       // modify selector to target only a single script container
       if (exportBtn.parentElement.dataset.dataExportAll !== '1') {
         // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
-        copy(JSON.stringify(storage[scriptId]));
+        // copy(JSON.stringify(storage[scriptId]));
+        exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
+        exportBtn.download = scriptId + '.json';
       } else {
-        copy(JSON.stringify(storage));
+        // copy(JSON.stringify(storage));
+        exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
+        exportBtn.download = ${LIBRARY_ID} + '.json';
       }
-        exportBtn.innerHTML = "Copied!";
+        exportBtn.innerHTML = 'Downloaded!';
     });
   }
 
