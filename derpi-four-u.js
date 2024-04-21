@@ -329,6 +329,10 @@ var ConfigManager = (function () {
       // let selector = '[data-default-value]';
       importInput.click();
       const file = importInput.files[0];
+      if (file) {
+        addListeners(reader)
+        reader.readAsText(file);
+      }
       const reader = new FileReader();
       reader.onload = function() {
         let importedSettings = JSON.parse(reader.result);
@@ -339,7 +343,6 @@ var ConfigManager = (function () {
           setStorage(reader.result);
         };
       };
-      reader.readAsText(file);
       console.log('input text is:' + reader.result);
       // importBtn.innerHTML = 'Uploaded!';
     });
