@@ -337,17 +337,14 @@ var ConfigManager = (function () {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
-          const storageLength = Object.keys(storage).length;
-          for (const key of storageLength) {
+          for (const key of Object.keys(storage)) {
             storage[scriptId][key] = importedSettings[key];
           }
           
         } else if (importBtn.parentElement.dataset.importAll === '1') {
           console.log(`Writing settings for ${LIBRARY_ID}`);
-          const storageLength = Object.keys(storage).length;
-          for (const scriptIds of storageLength){
-            const storageScriptLength = Object.keys(storage[scriptIds]).length;
-            for (const key of storageScriptLength) {
+          for (const scriptIds of Object.keys(storage)){
+            for (const key of Object.keys(storage[scriptIds])) {
               storage[scriptIds][key] = importedSettings[scriptIds][key];
             }
           }
