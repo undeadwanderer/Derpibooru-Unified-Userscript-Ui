@@ -295,7 +295,6 @@ var ConfigManager = (function () {
 
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      // let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
       if (exportBtn.parentElement.dataset.dataExportAll !== '1') {
