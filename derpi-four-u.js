@@ -297,12 +297,12 @@ var ConfigManager = (function () {
 
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      console.log('Library ID = ' + LIBRARY_ID);
+      // console.log('Library ID = ' + LIBRARY_ID);
       // let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
       if (exportBtn.parentElement.dataset.exportAll !== '1') {
-        console.log('exporting script data');
+        // console.log('exporting script data');
         // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
         // copy(JSON.stringify(storage[scriptId]));
         // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
@@ -310,11 +310,11 @@ var ConfigManager = (function () {
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
         exportBtn.setAttribute('download', scriptId + '.json');
       } else if (exportBtn.parentElement.dataset.exportAll === '1') {
-        console.log('exporting library data');
+        // console.log('exporting library data');
         // copy(JSON.stringify(storage));
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
         // exportBtn.download = '${LIBRARY_ID}.json';
-        exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSON.stringify(storage))));
+        exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
         exportBtn.setAttribute('download', LIBRARY_ID + '.json');
       }
         exportBtn.innerHTML = 'Downloaded!';
@@ -366,7 +366,7 @@ var ConfigManager = (function () {
           }]
         },{
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
+          attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
           children: [{
             tag: 'a',
             attributes: {href: '#'},
