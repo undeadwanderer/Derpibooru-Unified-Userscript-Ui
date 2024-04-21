@@ -306,13 +306,13 @@ var ConfigManager = (function () {
         // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
         // exportBtn.download = '${scriptId}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
-        exportBtn.setAttribute('download', scriptId + '.json');
+        exportBtn.setAttribute('download', '${scriptId}.json');
       } else {
         // copy(JSON.stringify(storage));
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
         // exportBtn.download = '${LIBRARY_ID}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
-        exportBtn.setAttribute('download', LIBRARY_ID + '.json');
+        exportBtn.setAttribute('download', '${LIBRARY_ID}.json');
       }
         exportBtn.innerHTML = 'Downloaded!';
         // exportBtn.setAttribute('href', '#');
