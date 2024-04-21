@@ -55,6 +55,10 @@ var ConfigManager = (function () {
   font-size: 13px;
   margin-right: 6px
 }
+.${LIBRARY_ID}--import_button {
+  font-size: 13px;
+  margin-right: 6px
+}
 .${LIBRARY_ID}--reset_button {
   font-size: 13px;
 }
@@ -310,6 +314,47 @@ var ConfigManager = (function () {
     });
   }
 
+// NEW: Import btn click function
+  function bindImportHandler(importBtn) {
+    
+    importBtn.addEventListener('click', function (e) {
+      const storage = getStorage();
+      const importInput = importBtn.parentElement.querySelector('input[type=file]');
+      const btn = e.target;
+      const scriptId = btn.dataset.scriptId;
+      // console.log('Library ID = ' + LIBRARY_ID);
+      // let selector = '[data-default-value]';
+      importInput.click();
+      const file = importInput.files[0];
+      const reader = new FileReader();
+      reader.onload = function() {
+      
+      // modify selector to target only a single script container
+      if (importBtn.parentElement.dataset.importAll !== '1') {
+        // console.log('exporting script data');
+        // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
+        // copy(JSON.stringify(storage[scriptId]));
+        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
+        // exportBtn.download = '${scriptId}.json';
+        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
+        // exportBtn.setAttribute('download', scriptId + '.json');
+        localStorage.setItem(scriptId, JSON.stringify(reader.result));
+      } else if (importBtn.parentElement.dataset.importAll === '1') {
+        // console.log('exporting library data');
+        // copy(JSON.stringify(storage));
+        // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
+        // exportBtn.download = '${LIBRARY_ID}.json';
+        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
+        // exportBtn.setAttribute('download', LIBRARY_ID + '.json');
+        localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
+      }
+        exportBtn.innerHTML = 'Uploaded!';
+        // exportBtn.setAttribute('href', '#');
+        
+      };
+    });
+  }
+
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
     const settingTable = document.querySelector('#js-setting-table');
@@ -353,6 +398,18 @@ var ConfigManager = (function () {
             text: 'Export all settings'
           }]
         },{
+          // NEW: Global import button
+          tag: 'div',
+          attributes: {class: `flex ${LIBRARY_ID}--import_button`, dataImportAll: '1'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#', dataScriptId: id},
+            text: 'Import data'
+          },{
+			tag: 'input',
+			attributes: {type: 'file', accept: '.json', display: 'none'},
+          }]
+        },{
           tag: 'div',
           attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
           children: [{
@@ -378,6 +435,8 @@ var ConfigManager = (function () {
       bindResetHandler(tabContent.querySelector(`.${LIBRARY_ID}--reset_button>a`));
 
       bindExportHandler(tabContent.querySelector(`.${LIBRARY_ID}--export_button>a`));
+
+      bindImportHandler(tabContent.querySelector(`.${LIBRARY_ID}--import_button>a`));
 
       // Insert tab header and content
       settingTable.querySelector('.block__header--js-tabbed').appendChild(tabHeader);
@@ -434,6 +493,18 @@ var ConfigManager = (function () {
             text: 'Export'
           }]
         },{
+          // NEW: Import settings button
+          tag: 'div',
+          attributes: {class: `flex ${LIBRARY_ID}--import_button`, dataImportAll: '0'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#', dataScriptId: id},
+            text: 'Import'
+          },{
+			tag: 'input',
+			attributes: {type: 'file', accept: '.json', display: 'none'},
+        }]
+        },{
           tag: 'div',
           attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
           children: [{
@@ -449,6 +520,7 @@ var ConfigManager = (function () {
     });
     bindResetHandler(ele.querySelector(`.${LIBRARY_ID}--reset_button>a`));
     bindExportHandler(ele.querySelector(`.${LIBRARY_ID}--export_button>a`));
+    bindImportHandler(ele.querySelector(`.${LIBRARY_ID}--import_button>a`));
 
     appendDescription(ele.lastChild, description);
     ele.addEventListener('change', checkForUnsavedChanges); // attach handler to show warning when input value changed
