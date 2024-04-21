@@ -337,13 +337,15 @@ var ConfigManager = (function () {
       reader.onload = function() {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
+		  console.log(`Writing setting for ${scriptId}`);
           storage.setItem(scriptId, JSON.stringify(reader.result));
           setStorage(storage);
         } else if (importBtn.parentElement.dataset.importAll === '1') {
+          console.log(`Writing settings for ${LIBRARY_ID}`);
           setStorage(reader.result);
         };
+        console.log('input text is:' + reader.result);
       };
-      console.log('input text is:' + reader.result);
       // importBtn.innerHTML = 'Uploaded!';
     });
 
