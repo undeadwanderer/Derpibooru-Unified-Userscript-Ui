@@ -340,7 +340,7 @@ var ConfigManager = (function () {
         };
       };
       reader.readAsText(file);
-      console.log(reader.result);
+      console.log('input text is:' + reader.result);
       // importBtn.innerHTML = 'Uploaded!';
     });
 
