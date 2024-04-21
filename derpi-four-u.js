@@ -315,7 +315,7 @@ var ConfigManager = (function () {
         exportBtn.setAttribute('download', LIBRARY_ID + '.json');
       }
         exportBtn.innerHTML = 'Downloaded!';
-        exportBtn.setAttribute('href', '#');
+        // exportBtn.setAttribute('href', '#');
     });
   }
 
