@@ -325,11 +325,12 @@ var ConfigManager = (function () {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed!');
+      const file = importInput.files[0];
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
-      const file = importInput.files[0];
       reader.onload = function() {
+        console.log('Reader loaded');
         const storage = getStorage();
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
