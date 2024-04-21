@@ -340,7 +340,6 @@ var ConfigManager = (function () {
             console.log(`Writing setting for ${scriptId}`);
             for (let key of Object.keys(storage)) {
               storage[scriptId][key] = importedSettings[key];
-              console.log(storage.toString());
             }
           
           } else if (importBtn.parentElement.dataset.importAll === '1') {
@@ -351,6 +350,7 @@ var ConfigManager = (function () {
               }
             }
           }
+          console.log(storage.toString());
           setStorage(storage);
           console.log('input text is:' + reader.result);
         };
