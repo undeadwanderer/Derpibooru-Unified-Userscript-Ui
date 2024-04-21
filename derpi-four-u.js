@@ -304,11 +304,11 @@ var ConfigManager = (function () {
         // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
         // copy(JSON.stringify(storage[scriptId]));
         exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
-        exportBtn.download = scriptId + '.json';
+        exportBtn.download = '${scriptId}.json';
       } else {
         // copy(JSON.stringify(storage));
         exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
-        exportBtn.download = LIBRARY_ID + '.json';
+        exportBtn.download = '${LIBRARY_ID}.json';
       }
         exportBtn.innerHTML = 'Downloaded!';
     });
