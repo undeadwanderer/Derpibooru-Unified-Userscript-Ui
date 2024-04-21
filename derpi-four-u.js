@@ -337,7 +337,7 @@ var ConfigManager = (function () {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
-          storage[scriptId] = JSON.stringify(reader.result);
+          storage[scriptId] = JSON.stringify(importedSettings);
           setStorage(storage);
         } else if (importBtn.parentElement.dataset.importAll === '1') {
           console.log(`Writing settings for ${LIBRARY_ID}`);
