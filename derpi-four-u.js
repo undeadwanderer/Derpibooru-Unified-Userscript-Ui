@@ -312,7 +312,7 @@ var ConfigManager = (function () {
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
         exportBtn.setAttribute('download', `${LIBRARY_ID}.json`);
       }
-        exportBtn.innerHTML = 'Downloaded!';
+        // exportBtn.innerHTML = 'Downloaded!';
         // exportBtn.setAttribute('href', '#');
     });
   }
@@ -331,27 +331,18 @@ var ConfigManager = (function () {
       const file = importInput.files[0];
       const reader = new FileReader();
       reader.onload = function() {
-      
-      // modify selector to target only a single script container
-      if (importBtn.parentElement.dataset.importAll !== '1') {
-        // console.log('exporting script data');
-        var importedSettings = JSON.parse(reader.result);
-        Object.keys(importedSettings).forEach(function(k) {
-          storeSettings(scriptId, k, importedSettings[k]);
-        });
-        // localStorage.setItem(scriptId, JSON.stringify(reader.result));
-      } else if (importBtn.parentElement.dataset.importAll === '1') {
-        // console.log('exporting library data');
-        // localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
-        var importedSettings = JSON.parse(reader.result);
-        setStorage(importedSettings);
-      }
-        exportBtn.innerHTML = 'Uploaded!';
-        // exportBtn.setAttribute('href', '#');
-        
+        let importedSettings = JSON.parse(reader.result);
+        if (importBtn.parentElement.dataset.importAll !== '1') {
+          localStorage.setItem(scriptId, JSON.stringify(reader.result));
+        } else if (importBtn.parentElement.dataset.importAll === '1') {
+          localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
+        };
       };
+      reader.readAsText(file);
+      // importBtn.innerHTML = 'Uploaded!';
     });
-  }
+
+}
 
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
