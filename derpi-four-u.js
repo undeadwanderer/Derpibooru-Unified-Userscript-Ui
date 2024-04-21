@@ -325,40 +325,42 @@ var ConfigManager = (function () {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed');
-      const file = importInput.files[0];
-      console.log('Selected file is ' + file.name);
-      // const btn = e.target;
-      const scriptId = btn.dataset.scriptId;
-      const reader = new FileReader();
-      reader.addEventListener("load", function() {
-        console.log('Reader loaded');
-        const storage = getStorage();
-        const importedSettings = JSON.parse(reader.result);
-        if (importBtn.parentElement.dataset.importAll !== '1') {
-		  console.log(`Writing setting for ${scriptId}`);
-          for (let key of Object.keys(storage)) {
-            storage[scriptId][key] = importedSettings[key];
-          }
-          
-        } else if (importBtn.parentElement.dataset.importAll === '1') {
-          console.log(`Writing settings for ${LIBRARY_ID}`);
-          for (let scriptIds of Object.keys(storage)){
-            for (let key of Object.keys(storage[scriptIds])) {
-              storage[scriptIds][key] = importedSettings[scriptIds][key];
+      importInput.addEventListener("change", function() {
+        const file = importInput.files[0];
+        console.log('Selected file is ' + file.name);
+        // const btn = e.target;
+        const scriptId = btn.dataset.scriptId;
+        const reader = new FileReader();
+        reader.addEventListener("load", function() {
+          console.log('Reader loaded');
+          const storage = getStorage();
+          const importedSettings = JSON.parse(reader.result);
+          if (importBtn.parentElement.dataset.importAll !== '1') {
+            console.log(`Writing setting for ${scriptId}`);
+            for (let key of Object.keys(storage)) {
+              storage[scriptId][key] = importedSettings[key];
             }
+          
+          } else if (importBtn.parentElement.dataset.importAll === '1') {
+            console.log(`Writing settings for ${LIBRARY_ID}`);
+            for (let scriptIds of Object.keys(storage)){
+              for (let key of Object.keys(storage[scriptIds])) {
+                storage[scriptIds][key] = importedSettings[scriptIds][key];
+              }
+            }
+            // storage = JSON.stringify(importedSettings);
           }
-          // storage = JSON.stringify(importedSettings);
+          setStorage(storage);
+          console.log('input text is:' + reader.result);
+        },
+        false,
+        );
+        if (file) {
+          console.log('File obtained');
+          reader.readAsText(file);
         }
-        setStorage(storage);
-        console.log('input text is:' + reader.result);
-      },
-      false,
-      );
-      if (file) {
-        console.log('File obtained');
-        reader.readAsText(file);
-      }
       // importBtn.innerHTML = 'Uploaded!';
+      });
     });
 
 }
