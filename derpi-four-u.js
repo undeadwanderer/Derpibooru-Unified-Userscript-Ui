@@ -56,6 +56,7 @@ var ConfigManager = (function () {
 }
 .${LIBRARY_ID}--export_button {
   font-size: 13px;
+  margin-right: 4px
 }
 .${LIBRARY_ID}__container .block__subheader legend {
   font-size: 14px;
