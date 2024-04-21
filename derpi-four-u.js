@@ -59,6 +59,9 @@ var ConfigManager = (function () {
   font-size: 13px;
   margin-right: 6px
 }
+.${LIBRARY_ID}--input_button {
+  display: none;
+}
 .${LIBRARY_ID}--reset_button {
   font-size: 13px;
 }
@@ -407,7 +410,7 @@ var ConfigManager = (function () {
             text: 'Import data'
           },{
 			tag: 'input',
-			attributes: {type: 'file', accept: '.json', display: 'none'},
+			attributes: {type: 'file', accept: '.json', class: '${LIBRARY_ID}--input_button'},
           }]
         },{
           tag: 'div',
@@ -502,7 +505,7 @@ var ConfigManager = (function () {
             text: 'Import'
           },{
 			tag: 'input',
-			attributes: {type: 'file', accept: '.json', display: 'none'},
+			attributes: {type: 'file', accept: '.json', class: '${LIBRARY_ID}--input_button'},
         }]
         },{
           tag: 'div',
