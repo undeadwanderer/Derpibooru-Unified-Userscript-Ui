@@ -300,7 +300,7 @@ var ConfigManager = (function () {
       // let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
-      if (exportBtn.parentElement.dataset.dataExportAll !== '1') {
+      if (exportBtn.parentElement.dataset.exportAll !== '1') {
         console.log('exporting script data');
         // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
         // copy(JSON.stringify(storage[scriptId]));
@@ -308,7 +308,7 @@ var ConfigManager = (function () {
         // exportBtn.download = '${scriptId}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
         exportBtn.setAttribute('download', '${scriptId}.json');
-      } else if (exportBtn.parentElement.dataset.dataExportAll === '1') {
+      } else if (exportBtn.parentElement.dataset.exportAll === '1') {
         console.log('exporting library data');
         // copy(JSON.stringify(storage));
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
