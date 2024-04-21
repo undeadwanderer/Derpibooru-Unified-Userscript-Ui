@@ -329,11 +329,11 @@ var ConfigManager = (function () {
       // let selector = '[data-default-value]';
       importInput.click();
       const file = importInput.files[0];
+      const reader = new FileReader();
       if (file) {
         addListeners(reader)
         reader.readAsText(file);
       }
-      const reader = new FileReader();
       reader.onload = function() {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
