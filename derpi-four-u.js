@@ -403,7 +403,7 @@ var ConfigManager = (function () {
           attributes: {class: `flex ${LIBRARY_ID}--import_button`, dataImportAll: '1'},
           children: [{
             tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
+            attributes: {href: '#'},
             text: 'Import data'
           },{
 			tag: 'input',
