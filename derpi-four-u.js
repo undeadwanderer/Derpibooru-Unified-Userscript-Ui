@@ -329,6 +329,7 @@ var ConfigManager = (function () {
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
+      reader.readAsText(file);
       reader.onload = function() {
         console.log('Reader loaded');
         const storage = getStorage();
@@ -351,9 +352,6 @@ var ConfigManager = (function () {
         setStorage(storage);
         console.log('input text is:' + reader.result);
       };
-      if (file) {
-        reader.readAsText(file);
-      }
       // importBtn.innerHTML = 'Uploaded!';
     });
 
