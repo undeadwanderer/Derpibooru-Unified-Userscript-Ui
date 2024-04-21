@@ -321,11 +321,10 @@ var ConfigManager = (function () {
   function bindImportHandler(importBtn) {
     
     importBtn.addEventListener('click', function (e) {
+      console.log('Import button pressed!');
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      // console.log('Library ID = ' + LIBRARY_ID);
-      // let selector = '[data-default-value]';
       importInput.click();
       const file = importInput.files[0];
       const reader = new FileReader();
