@@ -505,7 +505,7 @@ var ConfigManager = (function () {
             text: 'Import'
           },{
 			tag: 'input',
-			attributes: {type: 'file', accept: '.json', class: '${LIBRARY_ID}--input_button'},
+			attributes: {type: 'file', accept: '.json', class: `${LIBRARY_ID}--input_button`},
         }]
         },{
           tag: 'div',
