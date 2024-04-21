@@ -335,21 +335,16 @@ var ConfigManager = (function () {
       // modify selector to target only a single script container
       if (importBtn.parentElement.dataset.importAll !== '1') {
         // console.log('exporting script data');
-        // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
-        // copy(JSON.stringify(storage[scriptId]));
-        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
-        // exportBtn.download = '${scriptId}.json';
-        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
-        // exportBtn.setAttribute('download', scriptId + '.json');
-        localStorage.setItem(scriptId, JSON.stringify(reader.result));
+        var importedSettings = JSON.parse(reader.result);
+        setStorage(importedSettings);
+        // localStorage.setItem(scriptId, JSON.stringify(reader.result));
       } else if (importBtn.parentElement.dataset.importAll === '1') {
         // console.log('exporting library data');
-        // copy(JSON.stringify(storage));
-        // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
-        // exportBtn.download = '${LIBRARY_ID}.json';
-        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
-        // exportBtn.setAttribute('download', LIBRARY_ID + '.json');
-        localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
+        // localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
+        var importedSettings = JSON.parse(reader.result);
+        Object.keys(importedSettings).forEach(function(k) {
+          storeSettings(scriptId, k, importedSettings[k]);
+        });
       }
         exportBtn.innerHTML = 'Uploaded!';
         // exportBtn.setAttribute('href', '#');
