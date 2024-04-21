@@ -336,15 +336,15 @@ var ConfigManager = (function () {
       if (importBtn.parentElement.dataset.importAll !== '1') {
         // console.log('exporting script data');
         var importedSettings = JSON.parse(reader.result);
-        setStorage(importedSettings);
+        Object.keys(importedSettings).forEach(function(k) {
+          storeSettings(scriptId, k, importedSettings[k]);
+        });
         // localStorage.setItem(scriptId, JSON.stringify(reader.result));
       } else if (importBtn.parentElement.dataset.importAll === '1') {
         // console.log('exporting library data');
         // localStorage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
         var importedSettings = JSON.parse(reader.result);
-        Object.keys(importedSettings).forEach(function(k) {
-          storeSettings(scriptId, k, importedSettings[k]);
-        });
+        setStorage(importedSettings);
       }
         exportBtn.innerHTML = 'Uploaded!';
         // exportBtn.setAttribute('href', '#');
