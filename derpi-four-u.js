@@ -293,7 +293,7 @@ var ConfigManager = (function () {
     exportBtn.addEventListener('click', function (e) {
       const storage = getStorage();
 
-      // const btn = e.target;
+      const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       // let selector = '[data-default-value]';
 
