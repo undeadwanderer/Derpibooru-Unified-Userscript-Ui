@@ -339,6 +339,7 @@ var ConfigManager = (function () {
         };
       };
       reader.readAsText(file);
+      console.log(reader.result);
       // importBtn.innerHTML = 'Uploaded!';
     });
 
