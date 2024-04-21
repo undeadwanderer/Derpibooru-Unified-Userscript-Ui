@@ -303,14 +303,14 @@ var ConfigManager = (function () {
         // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
         // exportBtn.download = '${scriptId}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
-        exportBtn.setAttribute('download', scriptId + '.json');
+        exportBtn.setAttribute('download', `${scriptId}.json`);
       } else if (exportBtn.parentElement.dataset.exportAll === '1') {
         // console.log('exporting library data');
         // copy(JSON.stringify(storage));
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
         // exportBtn.download = '${LIBRARY_ID}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
-        exportBtn.setAttribute('download', LIBRARY_ID + '.json');
+        exportBtn.setAttribute('download', `${LIBRARY_ID}.json`);
       }
         exportBtn.innerHTML = 'Downloaded!';
         // exportBtn.setAttribute('href', '#');
@@ -410,7 +410,7 @@ var ConfigManager = (function () {
             text: 'Import data'
           },{
 			tag: 'input',
-			attributes: {type: 'file', accept: '.json', class: '${LIBRARY_ID}--input_button'},
+			attributes: {type: 'file', accept: '.json', class: `${LIBRARY_ID}--input_button`},
           }]
         },{
           tag: 'div',
