@@ -338,11 +338,11 @@ var ConfigManager = (function () {
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
           storage[scriptId] = JSON.stringify(importedSettings);
-          setStorage(storage);
         } else if (importBtn.parentElement.dataset.importAll === '1') {
           console.log(`Writing settings for ${LIBRARY_ID}`);
-          setStorage(reader.result);
+          storage = JSON.stringify(importedSettings);
         };
+        setStorage(storage);
         console.log('input text is:' + reader.result);
       };
       // importBtn.innerHTML = 'Uploaded!';
