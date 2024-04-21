@@ -51,12 +51,12 @@ var ConfigManager = (function () {
 .${LIBRARY_ID}--unsaved_warning.${LIBRARY_ID}--hidden {
   opacity: 0;
 }
-.${LIBRARY_ID}--reset_button {
-  font-size: 13px;
-}
 .${LIBRARY_ID}--export_button {
   font-size: 13px;
   margin-right: 6px
+}
+.${LIBRARY_ID}--reset_button {
+  font-size: 13px;
 }
 .${LIBRARY_ID}__container .block__subheader legend {
   font-size: 14px;
@@ -186,19 +186,6 @@ var ConfigManager = (function () {
     return storage[scriptId][key];
   }
 
-  // !NEW! Export functions
-  // function exportSettingsGlobal() {
-    // const storage = getStorage();
-    // var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(storage));;
-    
-  // }
-
-  // function exportSettings(scriptId) {
-    // const storage = getStorage();
-    // copy(JSON.stringify(storage[scriptId]));
-  // }
-  // End of !NEW! Export functions
-
   /**
    * Display warning when one or more inputs had been changed.
    */
@@ -290,7 +277,7 @@ var ConfigManager = (function () {
       checkForUnsavedChanges();
     });
   }
-// Export btn click function
+// NEW: Export btn click function
   function bindExportHandler(exportBtn) {
     
     exportBtn.addEventListener('click', function (e) {
