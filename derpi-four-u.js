@@ -326,7 +326,6 @@ var ConfigManager = (function () {
       importInput.click();
       console.log('Import button pressed');
       let file = importInput.files[0];
-      console.log('File obtained');
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
@@ -353,6 +352,7 @@ var ConfigManager = (function () {
         console.log('input text is:' + reader.result);
       };
       if (file) {
+        console.log('File obtained');
         reader.readAsText(file);
       }
       // importBtn.innerHTML = 'Uploaded!';
