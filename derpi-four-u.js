@@ -331,7 +331,6 @@ var ConfigManager = (function () {
       const file = importInput.files[0];
       const reader = new FileReader();
       if (file) {
-        addListeners(reader)
         reader.readAsText(file);
       }
       reader.onload = function() {
