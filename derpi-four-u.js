@@ -321,7 +321,6 @@ var ConfigManager = (function () {
   function bindImportHandler(importBtn) {
     
     importBtn.addEventListener('click', function (e) {
-      const storage = getStorage();
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
@@ -334,6 +333,7 @@ var ConfigManager = (function () {
         reader.readAsText(file);
       }
       reader.onload = function() {
+        const storage = getStorage();
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
