@@ -328,7 +328,7 @@ var ConfigManager = (function () {
       importInput.addEventListener("change", function() {
         const file = importInput.files[0];
         console.log('Selected file is ' + file.name);
-        // const btn = e.target;
+        const btn = e.target;
         const scriptId = btn.dataset.scriptId;
         const reader = new FileReader();
         reader.addEventListener("load", function() {
