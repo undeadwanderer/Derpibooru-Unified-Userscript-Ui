@@ -7,7 +7,7 @@
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.4
+// @version       1.2.5
 
 // ==/UserScript==
 
@@ -52,6 +52,9 @@ var ConfigManager = (function () {
   opacity: 0;
 }
 .${LIBRARY_ID}--reset_button {
+  font-size: 13px;
+}
+.${LIBRARY_ID}--export_button {
   font-size: 13px;
 }
 .${LIBRARY_ID}__container .block__subheader legend {
@@ -182,6 +185,18 @@ var ConfigManager = (function () {
     return storage[scriptId][key];
   }
 
+  // !NEW! Export functions
+  // function exportSettingsGlobal() {
+    // const storage = getStorage();
+    // copy(JSON.stringify(storage));
+  // }
+
+  // function exportSettings(scriptId) {
+    // const storage = getStorage();
+    // copy(JSON.stringify(storage[scriptId]));
+  // }
+  // End of !NEW! Export functions
+
   /**
    * Display warning when one or more inputs had been changed.
    */
@@ -249,7 +264,7 @@ var ConfigManager = (function () {
       let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
-      if (resetBtn.parentElement.dataset.resetAll !== '1') {
+      if (resetBtn.parentElement.dataset.dataResetAll !== '1') {
         selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
       }
 
@@ -271,6 +286,25 @@ var ConfigManager = (function () {
         input[propType] = defaultValue;
       }
       checkForUnsavedChanges();
+    });
+  }
+
+  function bindExportHandler(exportBtn) {
+    exportBtn.addEventListener('click', function (e) {
+      const storage = getStorage();
+
+      // const btn = e.target;
+      const scriptId = btn.dataset.scriptId;
+      // let selector = '[data-default-value]';
+
+      // modify selector to target only a single script container
+      if (exportBtn.parentElement.dataset.dataExportAll !== '1') {
+        // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
+        copy(JSON.stringify(storage[scriptId]));
+      } else {
+        copy(JSON.stringify(storage));
+      }
+        exportBtn.innerHTML = "Copied!";
     });
   }
 
@@ -315,6 +349,15 @@ var ConfigManager = (function () {
             attributes: {href: '#'},
             text: 'Reset all settings'
           }]
+        },{
+		// !NEW! Global export button
+          tag: 'div',
+          attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '1'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#'},
+            text: 'Export all settings'
+          }]
         }]
       },{
         tag: 'div',
@@ -331,6 +374,8 @@ var ConfigManager = (function () {
       bindSaveHandler(document.querySelector('form[action="/settings"] button[type="submit"], form[action="/settings"] input[type="submit"]'));
 
       bindResetHandler(tabContent.querySelector(`.${LIBRARY_ID}--reset_button>a`));
+
+      bindExportHandler(tabContent.querySelector(`.${LIBRARY_ID}--export_button>a`));
 
       // Insert tab header and content
       settingTable.querySelector('.block__header--js-tabbed').appendChild(tabHeader);
@@ -384,6 +429,15 @@ var ConfigManager = (function () {
             tag: 'a',
             attributes: {href: '#', dataScriptId: id},
             text: 'Default'
+          }]
+        },{
+          // !NEW! Export settings button
+          tag: 'div',
+          attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '0'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#', dataScriptId: id},
+            text: 'Export'
           }]
         }]
       }, {
