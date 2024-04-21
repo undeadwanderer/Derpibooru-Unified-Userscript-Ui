@@ -321,7 +321,7 @@ var ConfigManager = (function () {
 // NEW: Import btn click function
   function bindImportHandler(importBtn) {
     
-    importBtn.addEventListener('click', function () {
+    importBtn.addEventListener('click', function (e) {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed');
