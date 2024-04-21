@@ -334,8 +334,9 @@ var ConfigManager = (function () {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
           storage.setItem(scriptId, JSON.stringify(reader.result));
+          setStorage(storage);
         } else if (importBtn.parentElement.dataset.importAll === '1') {
-          storage.setItem(LIBRARY_ID, JSON.stringify(reader.result));
+          setStorage(reader.result);
         };
       };
       reader.readAsText(file);
