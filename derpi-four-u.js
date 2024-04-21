@@ -325,14 +325,10 @@ var ConfigManager = (function () {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed!');
-      const file = importInput.files[0];
+      const file = ;
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
-      reader.addEventListener('load', function() {
-        document.getElementById('file').innerText = this.result;
-      });
-      reader.readAsText(file);
       reader.onload = function() {
         console.log('Reader loaded');
         const storage = getStorage();
@@ -355,6 +351,7 @@ var ConfigManager = (function () {
         setStorage(storage);
         console.log('input text is:' + reader.result);
       };
+      reader.readAsText(importInput.files[0]);
       // importBtn.innerHTML = 'Uploaded!';
     });
 
