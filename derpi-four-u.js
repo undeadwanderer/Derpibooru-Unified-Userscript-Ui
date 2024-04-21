@@ -307,7 +307,7 @@ var ConfigManager = (function () {
         // exportBtn.download = '${scriptId}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
         exportBtn.setAttribute('download', '${scriptId}.json');
-      } else if exportBtn.parentElement.dataset.dataExportAll === '1' {
+      } else if (exportBtn.parentElement.dataset.dataExportAll === '1') {
         // copy(JSON.stringify(storage));
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
         // exportBtn.download = '${LIBRARY_ID}.json';
