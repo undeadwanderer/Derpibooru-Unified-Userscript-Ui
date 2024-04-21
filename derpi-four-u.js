@@ -353,14 +353,14 @@ var ConfigManager = (function () {
           }
           setStorage(storage);
           console.log('input text is:' + reader.result);
-        );
+        };
         if (file) {
           console.log('File obtained');
           reader.readAsText(file);
         }
       // importBtn.innerHTML = 'Uploaded!';
-      });
-    };
+      };
+    });
 
 }
 
