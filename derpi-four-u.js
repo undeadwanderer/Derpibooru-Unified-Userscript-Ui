@@ -329,7 +329,7 @@ var ConfigManager = (function () {
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
-      reader.onload = function() {
+      reader.addEventListener ("load", function() {
         console.log('Reader loaded');
         const storage = getStorage();
         const importedSettings = JSON.parse(reader.result);
@@ -350,7 +350,9 @@ var ConfigManager = (function () {
         }
         setStorage(storage);
         console.log('input text is:' + reader.result);
-      };
+      },
+      false,
+      );
       if (file) {
         console.log('File obtained');
         reader.readAsText(file);
