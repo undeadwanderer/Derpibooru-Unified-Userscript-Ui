@@ -326,8 +326,8 @@ var ConfigManager = (function () {
       importInput.click();
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      const file = importInput.files[0];
       const reader = new FileReader();
+      const file = importInput.files[0];
       reader.onload = function() {
         const storage = getStorage();
         let importedSettings = JSON.parse(reader.result);
