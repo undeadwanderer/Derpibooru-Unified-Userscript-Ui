@@ -308,7 +308,7 @@ var ConfigManager = (function () {
       } else {
         // copy(JSON.stringify(storage));
         exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
-        exportBtn.download = ${LIBRARY_ID} + '.json';
+        exportBtn.download = LIBRARY_ID + '.json';
       }
         exportBtn.innerHTML = 'Downloaded!';
     });
