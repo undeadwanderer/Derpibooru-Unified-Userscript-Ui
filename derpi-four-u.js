@@ -297,7 +297,7 @@ var ConfigManager = (function () {
 
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      const libraryId = LIBRARY_ID;
+      console.log('Library ID = ' + LIBRARY_ID);
       // let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
@@ -315,7 +315,7 @@ var ConfigManager = (function () {
         // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
         // exportBtn.download = '${LIBRARY_ID}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(JSON.stringify(storage))));
-        exportBtn.setAttribute('download', '${libraryId}.json');
+        exportBtn.setAttribute('download', '${LIBRARY_ID}.json');
       }
         exportBtn.innerHTML = 'Downloaded!';
         // exportBtn.setAttribute('href', '#');
