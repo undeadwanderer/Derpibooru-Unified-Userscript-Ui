@@ -446,6 +446,7 @@ var ConfigManager = (function () {
       }]
     });
     bindResetHandler(ele.querySelector(`.${LIBRARY_ID}--reset_button>a`));
+    bindExportHandler(ele.querySelector(`.${LIBRARY_ID}--export_button>a`));
 
     appendDescription(ele.lastChild, description);
     ele.addEventListener('change', checkForUnsavedChanges); // attach handler to show warning when input value changed
