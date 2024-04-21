@@ -353,14 +353,6 @@ var ConfigManager = (function () {
           tag: 'span',
           text: 'Settings on this tab are managed by installed userscripts and stored locally.'
         },{
-          tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
-          children: [{
-            tag: 'a',
-            attributes: {href: '#'},
-            text: 'Reset all settings'
-          }]
-        },{
 		// !NEW! Global export button
           tag: 'div',
           attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '1'},
@@ -368,6 +360,14 @@ var ConfigManager = (function () {
             tag: 'a',
             attributes: {href: '#'},
             text: 'Export all settings'
+          }]
+        },{
+          tag: 'div',
+          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#'},
+            text: 'Reset all settings'
           }]
         }]
       },{
@@ -434,14 +434,6 @@ var ConfigManager = (function () {
           tag: 'span',
           text: name
         },{
-          tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
-          children: [{
-            tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
-            text: 'Default'
-          }]
-        },{
           // !NEW! Export settings button
           tag: 'div',
           attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '0'},
@@ -449,6 +441,14 @@ var ConfigManager = (function () {
             tag: 'a',
             attributes: {href: '#', dataScriptId: id},
             text: 'Export'
+          }]
+        },{
+          tag: 'div',
+          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
+          children: [{
+            tag: 'a',
+            attributes: {href: '#', dataScriptId: id},
+            text: 'Default'
           }]
         }]
       }, {
