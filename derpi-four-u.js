@@ -321,15 +321,16 @@ var ConfigManager = (function () {
 // NEW: Import btn click function
   function bindImportHandler(importBtn) {
     
-    importBtn.addEventListener('click', function (e) {
+    importBtn.addEventListener('click', function () {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed');
       const file = importInput.files[0];
-      const btn = e.target;
+      console.log('Selected file is ' + file.name);
+      // const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
-      reader.addEventListener ("load", function() {
+      reader.addEventListener("load", function() {
         console.log('Reader loaded');
         const storage = getStorage();
         const importedSettings = JSON.parse(reader.result);
