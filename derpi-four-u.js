@@ -328,9 +328,6 @@ var ConfigManager = (function () {
       importInput.click();
       const file = importInput.files[0];
       const reader = new FileReader();
-      if (file) {
-        reader.readAsText(file);
-      }
       reader.onload = function() {
         const storage = getStorage();
         let importedSettings = JSON.parse(reader.result);
@@ -352,6 +349,9 @@ var ConfigManager = (function () {
         setStorage(storage);
         console.log('input text is:' + reader.result);
       };
+      if (file) {
+        reader.readAsText(file);
+      }
       // importBtn.innerHTML = 'Uploaded!';
     });
 
