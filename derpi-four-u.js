@@ -325,7 +325,6 @@ var ConfigManager = (function () {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed!');
-      const file = ;
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
