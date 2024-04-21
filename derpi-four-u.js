@@ -302,13 +302,13 @@ var ConfigManager = (function () {
       // modify selector to target only a single script container
       if (exportBtn.parentElement.dataset.dataExportAll !== '1') {
         // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
-        // copy(JSON.stringify(storage[scriptId]));
-        exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
-        exportBtn.download = '${scriptId}.json';
+        copy(JSON.stringify(storage[scriptId]));
+        // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
+        // exportBtn.download = '${scriptId}.json';
       } else {
-        // copy(JSON.stringify(storage));
-        exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
-        exportBtn.download = '${LIBRARY_ID}.json';
+        copy(JSON.stringify(storage));
+        // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
+        // exportBtn.download = '${LIBRARY_ID}.json';
       }
         exportBtn.innerHTML = 'Downloaded!';
     });
