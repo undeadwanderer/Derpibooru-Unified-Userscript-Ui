@@ -289,7 +289,7 @@ var ConfigManager = (function () {
       checkForUnsavedChanges();
     });
   }
-
+// Export btn click function
   function bindExportHandler(exportBtn) {
     
     exportBtn.addEventListener('click', function (e) {
