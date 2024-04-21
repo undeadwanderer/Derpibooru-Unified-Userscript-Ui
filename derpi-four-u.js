@@ -323,9 +323,9 @@ var ConfigManager = (function () {
     importBtn.addEventListener('click', function (e) {
       console.log('Import button pressed!');
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
+      importInput.click();
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      importInput.click();
       const file = importInput.files[0];
       const reader = new FileReader();
       reader.onload = function() {
@@ -333,14 +333,14 @@ var ConfigManager = (function () {
         let importedSettings = JSON.parse(reader.result);
         if (importBtn.parentElement.dataset.importAll !== '1') {
 		  console.log(`Writing setting for ${scriptId}`);
-          for (const key of Object.keys(storage)) {
+          for (let key of Object.keys(storage)) {
             storage[scriptId][key] = importedSettings[key];
           }
           
         } else if (importBtn.parentElement.dataset.importAll === '1') {
           console.log(`Writing settings for ${LIBRARY_ID}`);
-          for (const scriptIds of Object.keys(storage)){
-            for (const key of Object.keys(storage[scriptIds])) {
+          for (let scriptIds of Object.keys(storage)){
+            for (let key of Object.keys(storage[scriptIds])) {
               storage[scriptIds][key] = importedSettings[scriptIds][key];
             }
           }
