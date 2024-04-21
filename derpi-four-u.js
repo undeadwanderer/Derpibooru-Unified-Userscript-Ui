@@ -53,14 +53,15 @@ var ConfigManager = (function () {
 }
 .${LIBRARY_ID}--export_button {
   font-size: 13px;
-  margin-right: 6px
+  margin-right: 6px;
 }
 .${LIBRARY_ID}--import_button {
   font-size: 13px;
-  margin-right: 6px
+  margin-right: 6px;
 }
 .${LIBRARY_ID}--input_button {
-  display: none;
+  opacity: 0;
+  width: 0px;
 }
 .${LIBRARY_ID}--reset_button {
   font-size: 13px;
@@ -321,9 +322,9 @@ var ConfigManager = (function () {
   function bindImportHandler(importBtn) {
     
     importBtn.addEventListener('click', function (e) {
-      console.log('Import button pressed!');
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
+      console.log('Import button pressed!');
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
       const reader = new FileReader();
