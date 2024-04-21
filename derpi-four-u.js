@@ -265,7 +265,7 @@ var ConfigManager = (function () {
       let selector = '[data-default-value]';
 
       // modify selector to target only a single script container
-      if (resetBtn.parentElement.dataset.dataResetAll !== '1') {
+      if (resetBtn.parentElement.dataset.resetAll !== '1') {
         selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
       }
 
