@@ -56,7 +56,7 @@ var ConfigManager = (function () {
 }
 .${LIBRARY_ID}--export_button {
   font-size: 13px;
-  margin-right: 4px
+  margin-right: 6px
 }
 .${LIBRARY_ID}__container .block__subheader legend {
   font-size: 14px;
@@ -357,7 +357,7 @@ var ConfigManager = (function () {
           tag: 'span',
           text: 'Settings on this tab are managed by installed userscripts and stored locally.'
         },{
-		// !NEW! Global export button
+		// NEW: Global export button
           tag: 'div',
           attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '1'},
           children: [{
@@ -438,7 +438,7 @@ var ConfigManager = (function () {
           tag: 'span',
           text: name
         },{
-          // !NEW! Export settings button
+          // NEW: Export settings button
           tag: 'div',
           attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '0'},
           children: [{
@@ -448,7 +448,7 @@ var ConfigManager = (function () {
           }]
         },{
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
+          attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
           children: [{
             tag: 'a',
             attributes: {href: '#', dataScriptId: id},
