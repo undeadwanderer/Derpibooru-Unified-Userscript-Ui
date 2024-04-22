@@ -357,7 +357,9 @@ var ConfigManager = (function () {
           console.log('input text is:' + reader.result);
           let tabContents = document.querySelector('div[data-tab="userscript"]');
           tabContents.style.display='none';
-          setTimeout(function(){tabContents.style.display='block';,10}
+          setTimeout(function(){
+            tabContents.style.display='block';
+          },10)
         };
         if (file) {
           console.log('File obtained');
