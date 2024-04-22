@@ -372,7 +372,7 @@ var ConfigManager = (function () {
 
               //  input[type="checkbox"] accepts boolean values, but data-default-value stores 'true' 'false' strings.
               if (elemType == 'checkbox') {
-                inputValue.checked = storage[scriptId][key];
+                inputValue = storage[scriptId][key];
               } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
                 inputValue = Number.parseFloat(storage[scriptId][key]);
               } else if (elemType == 'dropdown') {
@@ -386,6 +386,7 @@ var ConfigManager = (function () {
               } else {
                 inputValue = storage[scriptId][key];
               }
+              console.log('New inputValue = ' + inputValue);
             }
           // let tabContents = document.querySelector('div[data-tab=userscript]');
           // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
