@@ -358,16 +358,16 @@ var ConfigManager = (function () {
 
           let tabContents = document.querySelector('div[data-tab=userscript]');
           // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
-          for (const j of tabContents.children) {
+          // for (const j of tabContents.children) {
           // tabContents.children.forEach(function(j){
 
           // const y = document.createTextNode(' ');
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-            j.setProperty('display', 'none');
-            j.offsetHeight;
-            j.setProperty('display', 'block');
+            tabContents.style.setProperty('display', 'none');
+            tabContents.offsetHeight;
+            tabContents.style.setProperty('display', 'block');
             // j.style.display = 'none';
             // j.offsetHeight;
           // setTimeout(function(){
@@ -376,7 +376,7 @@ var ConfigManager = (function () {
             // y.parentNode.removeChild(y);
           // },10);
                     
-          };
+          // };
         };
         if (file) {
           console.log('File obtained');
