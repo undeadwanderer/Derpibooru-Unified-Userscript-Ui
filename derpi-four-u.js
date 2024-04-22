@@ -380,7 +380,7 @@ var ConfigManager = (function () {
               } else if (elemType == 'radio') {
                 for (radioChild of inputValue.querySelectorAll('input[type="radio"]')) {
                   console.log('radioChild = ' + radioChild);
-                  if radioChild.value == storage[scriptId][key] {
+                  if (radioChild.value == storage[scriptId][key]) {
                     radioChild.checked = true;
                     console.log('New radioChild = ' + radioChild);
                     // } else {
