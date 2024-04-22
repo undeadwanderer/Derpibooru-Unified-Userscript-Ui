@@ -365,25 +365,27 @@ var ConfigManager = (function () {
 
             for (const input of inputElements) {
               const key = input.dataset.entryKey;
-              const propType = input.dataset.entryPropertyType;
-              const elemType = input.getAttribute('type')
-              let inputValue = input[propType];
+              ConfigObject.getEntry(key)
+              
+              // const propType = input.dataset.entryPropertyType;
+              // const elemType = input.getAttribute('type')
+              // let inputValue = input[propType];
 
               //  input[type="checkbox"] accepts boolean values, but data-default-value stores 'true' 'false' strings.
-              if (elemType == 'checkbox') {
-                inputValue.checked = storage[scriptId][key];
-              } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
-                inputValue.innerHTML = Number.parseFloat(storage[scriptId][key]);
-              } else if (elemType == 'dropdown') {
-                inputValue.value = storage[scriptId][key]
-              } else if (elemType == 'radio') {
-                if inputValue.value == storage[scriptId][key] {
-                  inputValue.checked = true;
+              // if (elemType == 'checkbox') {
+                // inputValue.checked = storage[scriptId][key];
+              // } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
+                // inputValue.innerHTML = Number.parseFloat(storage[scriptId][key]);
+              // } else if (elemType == 'dropdown') {
+                // inputValue.value = storage[scriptId][key]
+              // } else if (elemType == 'radio') {
+                // if inputValue.value == storage[scriptId][key] {
+                  // inputValue.checked = true;
                 // } else {
                   // inputValue.checked = false;
-                }
-              } else {
-                inputValue.innerHTML = storage[scriptId][key];
+                // }
+              // } else {
+                // inputValue.innerHTML = storage[scriptId][key];
               }
             }
           // let tabContents = document.querySelector('div[data-tab=userscript]');
