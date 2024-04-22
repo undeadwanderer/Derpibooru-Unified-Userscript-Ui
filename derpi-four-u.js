@@ -365,10 +365,12 @@ var ConfigManager = (function () {
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-            j.style.display = 'none';
-            j.offsetHeight;
+            j.css('display', 'none').height();
+            j.css('display', 'block');
+            // j.style.display = 'none';
+            // j.offsetHeight;
           // setTimeout(function(){
-            j.style.display = '';
+            // j.style.display = '';
             // tabContents.style.display = disp;
             // y.parentNode.removeChild(y);
           // },10);
