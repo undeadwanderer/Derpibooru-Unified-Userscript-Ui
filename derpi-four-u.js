@@ -373,17 +373,17 @@ var ConfigManager = (function () {
               if (elemType == 'checkbox') {
                 inputValue.checked = storage[scriptId][key];
               } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
-                inputValue.innerHTML = Number.parseFloat(storage[scriptId][key]);
+                inputValue = Number.parseFloat(storage[scriptId][key]);
               } else if (elemType == 'dropdown') {
                 inputValue.value = storage[scriptId][key]
-              // } else if (elemType == 'radio') {
-                // if inputValue.value == storage[scriptId][key] {
-                  // inputValue.checked = true;
+              } else if (elemType == 'radio') {
+                if inputValue == storage[scriptId][key] {
+                  inputValue.checked = true;
                 // } else {
                   // inputValue.checked = false;
-                // }
+                }
               } else {
-                inputValue.innerHTML = storage[scriptId][key];
+                inputValue = storage[scriptId][key];
               }
             }
           // let tabContents = document.querySelector('div[data-tab=userscript]');
