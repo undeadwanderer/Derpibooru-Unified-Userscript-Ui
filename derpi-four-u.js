@@ -356,9 +356,14 @@ var ConfigManager = (function () {
           setStorage(storage);
           console.log('input text is:' + reader.result);
           let tabContents = document.querySelector('div[data-tab="userscript"]');
+          const y = document.createTextNode(' ');
+          var disp = tabContents.style.display;
+                  
+          tabContents.appendChild(y);
           tabContents.style.display='none';
           setTimeout(function(){
             tabContents.style.display='block';
+            y.parentNode.removeChild(y);
           },10)
         };
         if (file) {
