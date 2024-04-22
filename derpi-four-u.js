@@ -350,7 +350,7 @@ var ConfigManager = (function () {
               }
             }
           }
-          console.log(storage.toString());
+          console.log(JSON.stringify(storage));
           setStorage(storage);
           console.log('input text is:' + reader.result);
         };
