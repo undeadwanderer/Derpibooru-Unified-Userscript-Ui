@@ -306,9 +306,10 @@ var ConfigManager = (function() {
         exportBtn.setAttribute('download', `${LIBRARY_ID}.json`);
       }
       const prevButtonValue = exportBtn.innerHTML;
-      exportBtn.innerHTML = 'Downloaded!';
+      exportBtn.innerHTML = 'Saved!';
       setTimeout(function(){
         exportBtn.innerHTML = prevButtonValue;
+        exportBtn.setAttribute('href', '#');
       }, 5000);
     });
 
@@ -392,7 +393,7 @@ var ConfigManager = (function() {
           reader.readAsText(file);
         }
         const prevButtonValue = importBtn.innerHTML;
-        importBtn.innerHTML = 'Uploaded!';
+        importBtn.innerHTML = 'Applied!';
         setTimeout(function(){
           importBtn.innerHTML = prevButtonValue;
         }, 5000);
