@@ -367,7 +367,7 @@ var ConfigManager = (function () {
               const key = input.dataset.entryKey;
               const propType = input.dataset.entryPropertyType;
               const elemType = input.getAttribute('type')
-              let inputValue = input[propType];
+              let inputValue = input[elemType];
 
               //  input[type="checkbox"] accepts boolean values, but data-default-value stores 'true' 'false' strings.
               if (elemType == 'checkbox') {
@@ -376,12 +376,12 @@ var ConfigManager = (function () {
                 inputValue = Number.parseFloat(storage[scriptId][key]);
               } else if (elemType == 'dropdown') {
                 inputValue = storage[scriptId][key]
-              // } else if (elemType == 'radio') {
-                // if inputValue == storage[scriptId][key] {
-                  // inputValue.checked = true;
+              } else if (elemType == 'radio') {
+                if inputValue == storage[scriptId][key] {
+                  inputValue.checked = true;
                 // } else {
                   // inputValue.checked = false;
-                // }
+                }
               } else {
                 inputValue = storage[scriptId][key];
               }
