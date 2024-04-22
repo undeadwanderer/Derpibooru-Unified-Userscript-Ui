@@ -339,7 +339,7 @@ var ConfigManager = (function () {
           console.log('importedSettings is: ' + JSON.stringify(importedSettings));
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
-            for (const key of Object.keys(storage)) {
+            for (const key of Object.keys(storage[scriptId])) {
               storage[scriptId][key] = importedSettings[key];
               console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
