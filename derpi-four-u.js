@@ -365,7 +365,8 @@ var ConfigManager = (function () {
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-            j.css('display', 'none').height();
+            j.css('display', 'none');
+            j.offsetHeight;
             j.css('display', 'block');
             // j.style.display = 'none';
             // j.offsetHeight;
