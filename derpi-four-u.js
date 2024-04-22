@@ -339,15 +339,19 @@ var ConfigManager = (function () {
           console.log('importedSettings is: ' + JSON.stringify(importedSettings));
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
-            for (const key of Object.keys(storage[scriptId])) {
+            // for (const key of Object.keys(storage[scriptId])) {
+            for (const key of Object.keys(importedSettings)) {
+
               storage[scriptId][key] = JSON.stringify(importedSettings[key]);
               console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
           
           } else if (importBtn.parentElement.dataset.importAll === '1') {
             console.log(`Writing settings for ${LIBRARY_ID}`);
-            for (const scriptIds of Object.keys(storage)){
-              for (const key of Object.keys(storage[scriptIds])) {
+            // for (const scriptIds of Object.keys(storage)){
+              // for (const key of Object.keys(storage[scriptIds])) {
+            for (const scriptIds of Object.keys(importedSettings)){
+              for (const key of Object.keys(importedSettings[scriptIds])) {
                 storage[scriptIds][key] = importedSettings[scriptIds][key];
               }
             }
