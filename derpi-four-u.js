@@ -406,7 +406,7 @@ var ConfigManager = (function () {
             // y.parentNode.removeChild(y);
           // },10);
                     
-          // };
+          };
         };
         if (file) {
           console.log('File obtained');
@@ -414,9 +414,10 @@ var ConfigManager = (function () {
         }
       // importBtn.innerHTML = 'Uploaded!';
       };
-    };
+      
+    });
 
-}
+  }
 
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
