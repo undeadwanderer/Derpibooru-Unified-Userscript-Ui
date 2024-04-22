@@ -378,7 +378,7 @@ var ConfigManager = (function () {
               } else if (elemType == 'dropdown') {
                 inputValue = storage[scriptId][key]
               } else if (elemType == 'radio') {
-                for (radioChild of inputValue.querySelectorAll('input[type="radio"]'])) {
+                for (radioChild of inputValue.querySelectorAll('input[type="radio"]')) {
                   console.log('radioChild = ' + radioChild);
                   if radioChild.value == storage[scriptId][key] {
                     radioChild.checked = true;
