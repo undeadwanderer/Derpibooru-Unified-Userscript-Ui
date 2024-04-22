@@ -321,43 +321,30 @@ var ConfigManager = (function() {
     importBtn.addEventListener('click', function(e) {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
-      console.log('Import button pressed');
       importInput.onchange = function() {
         const file = importInput.files[0];
-        console.log('Selected file is ' + file.name);
         const btn = e.target;
         const scriptId = btn.dataset.scriptId;
-        console.log('Script ID is: ' + scriptId);
         const reader = new FileReader();
         reader.onload = function() {
-          console.log('Reader loaded');
           const storage = getStorage();
           const importedSettings = JSON.parse(reader.result);
-          console.log('importedSettings is: ' + JSON.stringify(importedSettings));
           if (importBtn.parentElement.dataset.importAll !== '1') {
-            console.log(`Writing setting for ${scriptId}`);
             for (const key of Object.keys(importedSettings)) {
 
               storage[scriptId][key] = importedSettings[key];
-              console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
           } else if (importBtn.parentElement.dataset.importAll === '1') {
-            console.log(`Writing settings for ${LIBRARY_ID}`);
             for (const scriptIds of Object.keys(importedSettings)) {
-              console.log(`Writing setting for ${scriptIds}`);
               for (const key of Object.keys(importedSettings[scriptIds])) {
-                console.log(`importedSettings[${scriptIds}][${key}] is: ` + importedSettings[scriptIds][key]);
                 if (storage[scriptIds] == undefined) {
                   storage[scriptIds] = {}
                 };
                 storage[scriptIds][key] = importedSettings[scriptIds][key];
-                console.log(`storage[${scriptIds}][${key}] is: ` + storage[scriptIds][key]);
               }
             }
           }
-          console.log('storage is: ' + JSON.stringify(storage));
           setStorage(storage);
-          console.log('input text is:' + reader.result);
           // Redraw elements with new values
           const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
           const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
@@ -371,7 +358,6 @@ var ConfigManager = (function() {
               const propType = input.dataset.entryPropertyType;
               const elemType = input.getAttribute('type')
               let inputValue = input[propType];
-              console.log('inputValue = ' + inputValue);
 
                 if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
                 inputValue = Number.parseFloat(storage[scriptId][key]);
@@ -383,13 +369,11 @@ var ConfigManager = (function() {
               } else {
                 inputValue = storage[scriptId][key];
               }
-              console.log('New inputValue = ' + inputValue);
               input[propType] = inputValue;
             }
           };
         };
         if (file) {
-          console.log('File obtained');
           reader.readAsText(file);
         }
         const prevButtonValue = importBtn.innerHTML;
