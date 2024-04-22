@@ -378,11 +378,15 @@ var ConfigManager = (function () {
               } else if (elemType == 'dropdown') {
                 inputValue = storage[scriptId][key]
               } else if (elemType == 'radio') {
-                // if inputValue == storage[scriptId][key] {
-                  // inputValue.checked = true;
-                // } else {
-                  // inputValue.checked = false;
-                // }
+                for (radioChild of inputValue.querySelectorAll('input[type="radio"]'])) {
+                  console.log('radioChild = ' + radioChild);
+                  if radioChild.value == storage[scriptId][key] {
+                    radioChild.checked = true;
+                    console.log('New radioChild = ' + radioChild);
+                    // } else {
+                    // inputValue.checked = false;
+                  }
+                }
               } else {
                 inputValue = storage[scriptId][key];
               }
