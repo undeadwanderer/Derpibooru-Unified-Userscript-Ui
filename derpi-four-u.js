@@ -357,15 +357,15 @@ var ConfigManager = (function () {
           console.log('input text is:' + reader.result);
 
           let tabContents = document.querySelector('div[data-tab="userscript"]');
-          console.log('fetched tab = ' + JSON.stringify(tabContents));
+          console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
           // const y = document.createTextNode(' ');
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
           tabContents.style.display = 'none';
-
+          tabContents.offsetHeight;
           // setTimeout(function(){
-            tabContents.style.display = 'block';
+            tabContents.style.display = '';
             // tabContents.style.display = disp;
             // y.parentNode.removeChild(y);
           // },10);
