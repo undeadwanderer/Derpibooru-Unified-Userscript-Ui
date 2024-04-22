@@ -375,13 +375,13 @@ var ConfigManager = (function () {
               } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
                 inputValue = Number.parseFloat(storage[scriptId][key]);
               } else if (elemType == 'dropdown') {
-                inputValue.value = storage[scriptId][key]
-              } else if (elemType == 'radio') {
-                if inputValue == storage[scriptId][key] {
-                  inputValue.checked = true;
+                inputValue = storage[scriptId][key]
+              // } else if (elemType == 'radio') {
+                // if inputValue == storage[scriptId][key] {
+                  // inputValue.checked = true;
                 // } else {
                   // inputValue.checked = false;
-                }
+                // }
               } else {
                 inputValue = storage[scriptId][key];
               }
