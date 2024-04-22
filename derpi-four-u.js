@@ -357,22 +357,23 @@ var ConfigManager = (function () {
           console.log('input text is:' + reader.result);
 
           let tabContents = document.querySelector('div[data-tab=userscript]');
-          console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
-          tabContents.children.forEach(function(j){
+          // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
+          for (const j of tabContents.children) {
+          // tabContents.children.forEach(function(j){
 
           // const y = document.createTextNode(' ');
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-          j.style.display = 'none';
-          j.offsetHeight;
+            j.style.display = 'none';
+            j.offsetHeight;
           // setTimeout(function(){
             j.style.display = '';
             // tabContents.style.display = disp;
             // y.parentNode.removeChild(y);
           // },10);
                     
-          });
+          };
         };
         if (file) {
           console.log('File obtained');
