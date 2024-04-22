@@ -358,17 +358,21 @@ var ConfigManager = (function () {
 
           let tabContents = document.querySelector('div[data-tab=userscript]');
           console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
+          tabContents.children.forEach(function(j){
+
           // const y = document.createTextNode(' ');
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-          tabContents.style.display = 'none';
-          tabContents.offsetHeight;
+          j.style.display = 'none';
+          j.offsetHeight;
           // setTimeout(function(){
-            tabContents.style.display = '';
+            j.style.display = '';
             // tabContents.style.display = disp;
             // y.parentNode.removeChild(y);
           // },10);
+                    
+          });
         };
         if (file) {
           console.log('File obtained');
