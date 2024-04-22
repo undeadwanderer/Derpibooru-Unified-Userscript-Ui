@@ -334,7 +334,7 @@ var ConfigManager = (function () {
         const reader = new FileReader();
         reader.onload = function() {
           console.log('Reader loaded');
-          const storage = getStorage();
+          let storage = getStorage();
           const importedSettings = JSON.parse(reader.result);
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
@@ -350,7 +350,7 @@ var ConfigManager = (function () {
               }
             }
           }
-          console.log(JSON.stringify(storage));
+          console.log('storage is: ' + JSON.stringify(storage));
           setStorage(storage);
           console.log('input text is:' + reader.result);
         };
