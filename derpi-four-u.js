@@ -384,7 +384,7 @@ var ConfigManager = (function () {
                     inputValue.parentNode.checked = true;
                     // console.log('New radioChild = ' + radioChild);
                   }
-                }
+                // }
               } else {
                 inputValue = storage[scriptId][key];
               }
