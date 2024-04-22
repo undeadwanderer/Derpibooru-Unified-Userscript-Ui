@@ -389,6 +389,7 @@ var ConfigManager = (function () {
                 inputValue = storage[scriptId][key];
               }
               console.log('New inputValue = ' + inputValue);
+              input[propType] = inputValue;
             }
           // let tabContents = document.querySelector('div[data-tab=userscript]');
           // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
