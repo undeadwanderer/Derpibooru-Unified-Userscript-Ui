@@ -366,7 +366,7 @@ var ConfigManager = (function () {
             for (const input of inputElements) {
               const key = input.dataset.entryKey;
               const propType = input.dataset.entryPropertyType;
-              const inputValue = input[propType];
+              let inputValue = input[propType];
 
               inputValue = storage[scriptId][key];
             }
