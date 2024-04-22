@@ -21,9 +21,9 @@
 //    Failed to read the 'localStorage' property from 'Window': The document is sandboxed and lacks the 'allow-same-origin' flag.
 //
 // This error occurs when script is executed inside an iframe, such as when the userscript didn't include the @noframes imperative.
-if (window.self !== window.top) return;  // Exit when inside iframe
+if (window.self !== window.top) return; // Exit when inside iframe
 
-var ConfigManager = (function () {
+var ConfigManager = (function() {
   'use strict';
 
   const LIBRARY_NAME = 'Derpibooru Unified Userscript UI Utility';
@@ -158,12 +158,16 @@ var ConfigManager = (function () {
       // additional dependency for radio and dropdown input type
       if ((param == 'radio' || param == 'dropdown') &&
         (obj.selections === undefined || obj.selections.length <= 0)) {
-          array.push('selections');
+        array.push('selections');
       }
     }
 
     if (array.length > 0) {
-      throw {type: 'missing params', arr: array, o: obj};
+      throw {
+        type: 'missing params',
+        arr: array,
+        o: obj
+      };
     }
   }
 
@@ -231,7 +235,7 @@ var ConfigManager = (function () {
   }
 
   function bindSaveHandler(saveBtn) {
-    saveBtn.addEventListener('click', function () {
+    saveBtn.addEventListener('click', function() {
       const storage = getStorage();
       const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
       const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
@@ -253,7 +257,7 @@ var ConfigManager = (function () {
   }
 
   function bindResetHandler(resetBtn) {
-    resetBtn.addEventListener('click', function (e) {
+    resetBtn.addEventListener('click', function(e) {
       e.preventDefault();
 
       const btn = e.target;
@@ -285,43 +289,35 @@ var ConfigManager = (function () {
       checkForUnsavedChanges();
     });
   }
-// NEW: Export btn click function
+  // NEW: Export btn click function
   function bindExportHandler(exportBtn) {
-    
-    exportBtn.addEventListener('click', function (e) {
+
+    exportBtn.addEventListener('click', function(e) {
       const storage = getStorage();
 
       const btn = e.target;
       const scriptId = btn.dataset.scriptId;
-      // console.log('Library ID = ' + LIBRARY_ID);
-      // let selector = '[data-default-value]';
-
       // modify selector to target only a single script container
       if (exportBtn.parentElement.dataset.exportAll !== '1') {
-        // console.log('exporting script data');
-        // selector = `.${LIBRARY_ID}__container[data-script-id="${scriptId}"] ${selector}`;
-        // copy(JSON.stringify(storage[scriptId]));
-        // exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId]));
-        // exportBtn.download = '${scriptId}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage[scriptId])));
         exportBtn.setAttribute('download', `${scriptId}.json`);
       } else if (exportBtn.parentElement.dataset.exportAll === '1') {
-        // console.log('exporting library data');
-        // copy(JSON.stringify(storage));
-        // exportBtn.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage));
-        // exportBtn.download = '${LIBRARY_ID}.json';
         exportBtn.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(storage)));
         exportBtn.setAttribute('download', `${LIBRARY_ID}.json`);
       }
-        // exportBtn.innerHTML = 'Downloaded!';
-        // exportBtn.setAttribute('href', '#');
+      const prevButtonValue = exportBtn.innerHTML;
+      exportBtn.innerHTML = 'Downloaded!';
+      setTimeout(function(){
+        exportBtn.innerHTML = prevButtonValue;
+      }, 5000);
     });
+
   }
 
-// NEW: Import btn click function
+  // NEW: Import btn click function
   function bindImportHandler(importBtn) {
-    
-    importBtn.addEventListener('click', function (e) {
+
+    importBtn.addEventListener('click', function(e) {
       const importInput = importBtn.parentElement.querySelector('input[type=file]');
       importInput.click();
       console.log('Import button pressed');
@@ -339,24 +335,20 @@ var ConfigManager = (function () {
           console.log('importedSettings is: ' + JSON.stringify(importedSettings));
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
-            // for (const key of Object.keys(storage[scriptId])) {
             for (const key of Object.keys(importedSettings)) {
 
-              // storage[scriptId][key] = JSON.stringify(importedSettings[key]).replace('\"','"');
               storage[scriptId][key] = importedSettings[key];
               console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
-          
           } else if (importBtn.parentElement.dataset.importAll === '1') {
             console.log(`Writing settings for ${LIBRARY_ID}`);
-            // for (const scriptIds of Object.keys(storage)){
-              // for (const key of Object.keys(storage[scriptIds])) {
-            for (const scriptIds of Object.keys(importedSettings)){
+            for (const scriptIds of Object.keys(importedSettings)) {
               console.log(`Writing setting for ${scriptIds}`);
               for (const key of Object.keys(importedSettings[scriptIds])) {
                 console.log(`importedSettings[${scriptIds}][${key}] is: ` + importedSettings[scriptIds][key]);
-                // storage[scriptIds][key] = JSON.stringify(importedSettings[scriptIds][key]).replace('\"','"');
-                if (storage[scriptIds] == undefined) {storage[scriptIds] = {}};
+                if (storage[scriptIds] == undefined) {
+                  storage[scriptIds] = {}
+                };
                 storage[scriptIds][key] = importedSettings[scriptIds][key];
                 console.log(`storage[${scriptIds}][${key}] is: ` + storage[scriptIds][key]);
               }
@@ -380,20 +372,12 @@ var ConfigManager = (function () {
               let inputValue = input[propType];
               console.log('inputValue = ' + inputValue);
 
-              //  input[type="checkbox"] accepts boolean values, but data-default-value stores 'true' 'false' strings.
-              if (elemType == 'checkbox') {
-                inputValue = storage[scriptId][key];
-              } else if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
+                if (elemType == 'number') { //  input[type="number"] uses valueAsNumber property for reading and storing values.
                 inputValue = Number.parseFloat(storage[scriptId][key]);
-              } else if (elemType == 'dropdown') {
-                inputValue = storage[scriptId][key]
-              } else if (elemType == 'radio') {
-                // for (radioChild of inputValue.querySelectorAll('input[type="radio"]')) {
-                  // console.log('radioChild = ' + radioChild);
-                  if (inputValue == storage[scriptId][key]) {
-                    inputValue.parentNode.checked = true;
-                    // console.log('New radioChild = ' + radioChild);
-                  }
+              } else if (elemType == 'radio') { // input[type="radio"] needs checking which of the child radio boxes is checked.
+                if (inputValue == storage[scriptId][key]) {
+                  inputValue.parentNode.checked = true;
+                }
                 // }
               } else {
                 inputValue = storage[scriptId][key];
@@ -401,35 +385,18 @@ var ConfigManager = (function () {
               console.log('New inputValue = ' + inputValue);
               input[propType] = inputValue;
             }
-          // let tabContents = document.querySelector('div[data-tab=userscript]');
-          // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
-          // for (const j of tabContents.children) {
-          // tabContents.children.forEach(function(j){
-
-          // const y = document.createTextNode(' ');
-          // var disp = tabContents.style.display;
-                  
-          // tabContents.appendChild(y);
-            // tabContents.style.setProperty('display', 'none');
-            // tabContents.offsetHeight;
-            // tabContents.style.setProperty('display', 'block');
-            // j.style.display = 'none';
-            // j.offsetHeight;
-          // setTimeout(function(){
-            // j.style.display = '';
-            // tabContents.style.display = disp;
-            // y.parentNode.removeChild(y);
-          // },10);
-                    
           };
         };
         if (file) {
           console.log('File obtained');
           reader.readAsText(file);
         }
-      // importBtn.innerHTML = 'Uploaded!';
+        const prevButtonValue = importBtn.innerHTML;
+        importBtn.innerHTML = 'Uploaded!';
+        setTimeout(function(){
+          importBtn.innerHTML = prevButtonValue;
+        }, 5000);
       };
-      
     });
 
   }
@@ -453,51 +420,78 @@ var ConfigManager = (function () {
     // Create tab
     const tabHeader = composeElement({
       tag: 'a',
-      attributes: {dataClickTab: SETTINGS_TAB_ID, href: '#'},
+      attributes: {
+        dataClickTab: SETTINGS_TAB_ID,
+        href: '#'
+      },
       text: 'Userscript'
     });
 
     // Create tab content
     const tabContent = composeElement({
       tag: 'div',
-      attributes: {class: 'block__tab hidden', dataTab: SETTINGS_TAB_ID},
+      attributes: {
+        class: 'block__tab hidden',
+        dataTab: SETTINGS_TAB_ID
+      },
       children: [{
         tag: 'div',
-        attributes: {class: 'block block--fixed block--primary flex'},
+        attributes: {
+          class: 'block block--fixed block--primary flex'
+        },
         children: [{
           tag: 'span',
           text: 'Settings on this tab are managed by installed userscripts and stored locally.'
-        },{
-		// NEW: Global export button
+        }, {
+          // NEW: Global export button
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '1'},
+          attributes: {
+            class: `flex__right ${LIBRARY_ID}--export_button`,
+            dataExportAll: '1'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#'},
+            attributes: {
+              href: '#'
+            },
             text: 'Export all settings'
           }]
-        },{
+        }, {
           // NEW: Global import button
           tag: 'div',
-          attributes: {class: `flex ${LIBRARY_ID}--import_button`, dataImportAll: '1'},
+          attributes: {
+            class: `flex ${LIBRARY_ID}--import_button`,
+            dataImportAll: '1'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#'},
+            attributes: {
+              href: '#'
+            },
             text: 'Import data'
-          },{
-			tag: 'input',
-			attributes: {type: 'file', accept: '.json', class: `${LIBRARY_ID}--input_button`},
+          }, {
+            tag: 'input',
+            attributes: {
+              type: 'file',
+              accept: '.json',
+              class: `${LIBRARY_ID}--input_button`
+            },
           }]
-        },{
+        }, {
           tag: 'div',
-          attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
+          attributes: {
+            class: `flex ${LIBRARY_ID}--reset_button`,
+            dataResetAll: '1'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#'},
+            attributes: {
+              href: '#'
+            },
             text: 'Reset all settings'
           }]
         }]
-      },{
+      }, {
         tag: 'div',
         attributes: {
           class: `block block--fixed block--warning ${LIBRARY_ID}--unsaved_warning ${LIBRARY_ID}--hidden`
@@ -555,46 +549,75 @@ var ConfigManager = (function () {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
     const ele = composeElement({
       tag: 'div',
-      attributes: {class: `block ${LIBRARY_ID}__container`, dataScriptId: id},
+      attributes: {
+        class: `block ${LIBRARY_ID}__container`,
+        dataScriptId: id
+      },
       children: [{
         tag: 'div',
-        attributes: {class: 'block__header block__header__item flex'},
+        attributes: {
+          class: 'block__header block__header__item flex'
+        },
         children: [{
           tag: 'span',
           text: name
-        },{
+        }, {
           // NEW: Export settings button
           tag: 'div',
-          attributes: {class: `flex__right ${LIBRARY_ID}--export_button`, dataExportAll: '0'},
+          attributes: {
+            class: `flex__right ${LIBRARY_ID}--export_button`,
+            dataExportAll: '0'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
             text: 'Export'
           }]
-        },{
+        }, {
           // NEW: Import settings button
           tag: 'div',
-          attributes: {class: `flex ${LIBRARY_ID}--import_button`, dataImportAll: '0'},
+          attributes: {
+            class: `flex ${LIBRARY_ID}--import_button`,
+            dataImportAll: '0'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
             text: 'Import'
-          },{
-			tag: 'input',
-			attributes: {type: 'file', accept: '.json', class: `${LIBRARY_ID}--input_button`},
-        }]
-        },{
+          }, {
+            tag: 'input',
+            attributes: {
+              type: 'file',
+              accept: '.json',
+              class: `${LIBRARY_ID}--input_button`
+            },
+          }]
+        }, {
           tag: 'div',
-          attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '0'},
+          attributes: {
+            class: `flex ${LIBRARY_ID}--reset_button`,
+            dataResetAll: '0'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#', dataScriptId: id},
+            attributes: {
+              href: '#',
+              dataScriptId: id
+            },
             text: 'Default'
           }]
         }]
       }, {
         tag: 'div',
-        attributes: {class: 'block__content'}
+        attributes: {
+          class: 'block__content'
+        }
       }]
     });
     bindResetHandler(ele.querySelector(`.${LIBRARY_ID}--reset_button>a`));
@@ -610,7 +633,10 @@ var ConfigManager = (function () {
   function appendFieldset(name, id, description, parent) {
     const ele = composeElement({
       tag: 'fieldset',
-      attributes: {class: `field ${LIBRARY_ID}__subheader`, dataFieldId: id},
+      attributes: {
+        class: `field ${LIBRARY_ID}__subheader`,
+        dataFieldId: id
+      },
       children: [{
         tag: 'legend',
         text: name
@@ -625,7 +651,9 @@ var ConfigManager = (function () {
 
     const ele = composeElement({
       tag: 'div',
-      attributes: {class: 'fieldlabel'},
+      attributes: {
+        class: 'fieldlabel'
+      },
       children: [{
         tag: 'i',
         text: string
@@ -635,7 +663,7 @@ var ConfigManager = (function () {
     // Headers and subheaders require additional styling, add class for CSS to target
     if ((node.parentElement && node.parentElement.classList.contains(`${LIBRARY_ID}__container`)) ||
       node.classList.contains(`${LIBRARY_ID}__subheader`)) {
-        ele.classList.add(`${LIBRARY_ID}__section__description`);
+      ele.classList.add(`${LIBRARY_ID}__section__description`);
     }
 
     return node.appendChild(ele);
@@ -664,16 +692,23 @@ var ConfigManager = (function () {
     this.parentElement = parent;
   }
 
-  ConfigObject.prototype.addFieldset = function (title, id, fieldDescription) {
+  ConfigObject.prototype.addFieldset = function(title, id, fieldDescription) {
     return Object.freeze(
       new ConfigObject(title, id, this.scriptId, this.pageElement, fieldDescription, appendFieldset)
     );
   };
 
-  ConfigObject.prototype.registerSetting = function (entryConfig) {
+  ConfigObject.prototype.registerSetting = function(entryConfig) {
     try {
       validateParameters(['title', 'key', 'type', 'defaultValue'], entryConfig);
-      const {title: entryTitle, key: entryKey, type, defaultValue, description, selections} = entryConfig;
+      const {
+        title: entryTitle,
+        key: entryKey,
+        type,
+        defaultValue,
+        description,
+        selections
+      } = entryConfig;
       const scriptId = this.scriptId;
       let storedValue = retrieveSettings(scriptId, entryKey);
       if (storedValue === undefined) {
@@ -692,7 +727,10 @@ var ConfigManager = (function () {
       // entry container is common for all input types
       const ele = composeElement({
         tag: 'div',
-        attributes: {class: `field ${LIBRARY_ID}__entry`, dataEntryId: namespacedKey}
+        attributes: {
+          class: `field ${LIBRARY_ID}__entry`,
+          dataEntryId: namespacedKey
+        }
       });
       switch (type) {
         case 'checkbox': {
@@ -700,8 +738,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 id: namespacedKey,
@@ -719,8 +759,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 class: 'input',
@@ -741,8 +783,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'textarea',
               attributes: {
                 class: 'input input--wide',
@@ -763,8 +807,10 @@ var ConfigManager = (function () {
             children: [{
               tag: 'label',
               text: entryTitle,
-              attributes: {for: namespacedKey}
-            },{
+              attributes: {
+                for: namespacedKey
+              }
+            }, {
               tag: 'input',
               attributes: {
                 class: 'input',
@@ -800,16 +846,16 @@ var ConfigManager = (function () {
            *  setter and getter to their containers to emulate the 'value' property
            */
           Object.defineProperty(buttonSet, 'value', {
-            get: function () {
+            get: function() {
               return this.querySelector('input:checked').value;
             },
-            set: function (val) {
+            set: function(val) {
               this.querySelector(`input[value="${val}"]`).checked = true;
             }
           });
           let n = 1;
           for (const selection of selections) {
-            const selectionId = namespacedKey + '-' + n;  // Generate unique ID for each radio button
+            const selectionId = namespacedKey + '-' + n; // Generate unique ID for each radio button
             n = n + 1;
             const span = composeElement({
               tag: 'span',
@@ -823,7 +869,9 @@ var ConfigManager = (function () {
                 }
               }, {
                 tag: 'label',
-                attributes: {for: selectionId},
+                attributes: {
+                  for: selectionId
+                },
                 text: selection.text
               }]
             });
@@ -834,7 +882,9 @@ var ConfigManager = (function () {
         case 'dropdown': {
           ele.appendChild(composeElement({
             tag: 'label',
-            attributes: {for: namespacedKey},
+            attributes: {
+              for: namespacedKey
+            },
             text: entryTitle
           }));
           // Append dropdown
@@ -851,7 +901,9 @@ var ConfigManager = (function () {
           for (const selection of selections) {
             selectElement.appendChild(composeElement({
               tag: 'option',
-              attributes: {value: selection.value},
+              attributes: {
+                value: selection.value
+              },
               text: selection.text
             }));
           }
@@ -877,15 +929,15 @@ var ConfigManager = (function () {
     }
   };
 
-  ConfigObject.prototype.setEntry = function (key, value) {
+  ConfigObject.prototype.setEntry = function(key, value) {
     storeSettings(this.scriptId, key, value);
   };
 
-  ConfigObject.prototype.getEntry = function (key) {
+  ConfigObject.prototype.getEntry = function(key) {
     return retrieveSettings(this.scriptId, key);
   };
 
-  ConfigObject.prototype.deleteEntry = function (key) {
+  ConfigObject.prototype.deleteEntry = function(key) {
     const storage = getStorage();
     const scriptId = this.scriptId;
     delete storage[scriptId][key];
