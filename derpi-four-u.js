@@ -340,7 +340,7 @@ var ConfigManager = (function () {
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
             for (const key of Object.keys(storage[scriptId])) {
-              storage[scriptId][key] = importedSettings[key];
+              storage[scriptId][key] = JSON.stringify(importedSettings[key]);
               console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
           
@@ -355,7 +355,7 @@ var ConfigManager = (function () {
           console.log('storage is: ' + JSON.stringify(storage));
           setStorage(storage);
           console.log('input text is:' + reader.result);
-
+          // Redraw elements with new values
           const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
           const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
 
