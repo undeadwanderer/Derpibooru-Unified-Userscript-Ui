@@ -355,16 +355,18 @@ var ConfigManager = (function () {
           console.log('storage is: ' + JSON.stringify(storage));
           setStorage(storage);
           console.log('input text is:' + reader.result);
+
           let tabContents = document.querySelector('div[data-tab="userscript"]');
           const y = document.createTextNode(' ');
           var disp = tabContents.style.display;
                   
           tabContents.appendChild(y);
-          tabContents.style.display='none';
+          tabContents.style.display = 'none';
+
           setTimeout(function(){
-            tabContents.style.display='block';
+            tabContents.style.display = disp;
             y.parentNode.removeChild(y);
-          },10)
+          },10);
         };
         if (file) {
           console.log('File obtained');
