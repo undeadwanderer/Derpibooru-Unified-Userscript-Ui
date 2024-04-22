@@ -367,7 +367,7 @@ var ConfigManager = (function () {
               const key = input.dataset.entryKey;
               const propType = input.dataset.entryPropertyType;
               const elemType = input.getAttribute('type')
-              let inputValue = input[elemType];
+              let inputValue = input[propType];
               console.log('inputValue = ' + inputValue);
 
               //  input[type="checkbox"] accepts boolean values, but data-default-value stores 'true' 'false' strings.
