@@ -355,6 +355,9 @@ var ConfigManager = (function () {
           console.log('storage is: ' + JSON.stringify(storage));
           setStorage(storage);
           console.log('input text is:' + reader.result);
+          let tabContents = document.querySelector('div[data-tab="userscript"]');
+          tabContents.style.display='none';
+          tabContents.style.display='block';
         };
         if (file) {
           console.log('File obtained');
