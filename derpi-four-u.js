@@ -356,7 +356,22 @@ var ConfigManager = (function () {
           setStorage(storage);
           console.log('input text is:' + reader.result);
 
-          let tabContents = document.querySelector('div[data-tab=userscript]');
+          const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
+          const scriptContainers = userscriptTabContent.querySelectorAll('[data-script-id]');
+
+          for (const container of scriptContainers) {
+            const scriptId = container.dataset.scriptId;
+            const inputElements = container.querySelectorAll('[data-entry-key]');
+
+            for (const input of inputElements) {
+              const key = input.dataset.entryKey;
+              const propType = input.dataset.entryPropertyType;
+              const inputValue = input[propType];
+
+              inputValue = storage[scriptId][key];
+            }
+          }
+          // let tabContents = document.querySelector('div[data-tab=userscript]');
           // console.log('fetched tab = ' + JSON.stringify(tabContents.innerHTML));
           // for (const j of tabContents.children) {
           // tabContents.children.forEach(function(j){
@@ -365,9 +380,9 @@ var ConfigManager = (function () {
           // var disp = tabContents.style.display;
                   
           // tabContents.appendChild(y);
-            tabContents.style.setProperty('display', 'none');
-            tabContents.offsetHeight;
-            tabContents.style.setProperty('display', 'block');
+            // tabContents.style.setProperty('display', 'none');
+            // tabContents.offsetHeight;
+            // tabContents.style.setProperty('display', 'block');
             // j.style.display = 'none';
             // j.offsetHeight;
           // setTimeout(function(){
