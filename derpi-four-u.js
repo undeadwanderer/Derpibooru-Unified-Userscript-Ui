@@ -336,10 +336,12 @@ var ConfigManager = (function () {
           console.log('Reader loaded');
           const storage = getStorage();
           const importedSettings = JSON.parse(reader.result);
+          console.log('importedSettings is: ' + JSON.stringify(importedSettings));
           if (importBtn.parentElement.dataset.importAll !== '1') {
             console.log(`Writing setting for ${scriptId}`);
             for (const key of Object.keys(storage)) {
               storage[scriptId][key] = importedSettings[key];
+              console.log(`storage[${scriptId}][${key}] is: ` + storage[scriptId][key]);
             }
           
           } else if (importBtn.parentElement.dataset.importAll === '1') {
