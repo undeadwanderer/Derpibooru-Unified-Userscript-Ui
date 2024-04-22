@@ -354,6 +354,7 @@ var ConfigManager = (function () {
             for (const scriptIds of Object.keys(importedSettings)){
               console.log(`Writing setting for ${scriptIds}`);
               for (const key of Object.keys(importedSettings[scriptIds])) {
+                console.log(`importedSettings[${scriptIds}][${key}] is: ` + importedSettings[scriptIds][key]);
                 // storage[scriptIds][key] = JSON.stringify(importedSettings[scriptIds][key]).replace('\"','"');
                 storage[scriptIds][key] = importedSettings[scriptIds][key];
                 console.log(`storage[${scriptIds}][${key}] is: ` + storage[scriptIds][key]);
