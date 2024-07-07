@@ -454,7 +454,6 @@ const CSSNEW = `
             text: 'Export all settings'
           }]
         }, {
-          // NEW: Global import button
           tag: 'div',
           attributes: {
             class: `flex ${LIBRARY_ID}--import_button`,
@@ -559,7 +558,6 @@ const CSSNEW = `
           tag: 'span',
           text: name
         }, {
-          // NEW: Export settings button
           tag: 'div',
           attributes: {
             class: `flex__right ${LIBRARY_ID}--export_button`,
@@ -574,7 +572,6 @@ const CSSNEW = `
             text: 'Export'
           }]
         }, {
-          // NEW: Import settings button
           tag: 'div',
           attributes: {
             class: `flex ${LIBRARY_ID}--import_button`,
@@ -774,7 +771,6 @@ const CSSNEW = `
           }));
           break;
         }
-        // NEW: Text area option
         case 'textarea': {
           ele.appendChild(composeElement({
             children: [{
@@ -798,7 +794,6 @@ const CSSNEW = `
           }));
           break;
         }
-        // End of NEW: Text area option
         case 'number': {
           ele.appendChild(composeElement({
             children: [{
