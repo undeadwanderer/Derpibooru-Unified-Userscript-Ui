@@ -51,10 +51,6 @@ var ConfigManager = (function() {
 .${LIBRARY_ID}--unsaved_warning.${LIBRARY_ID}--hidden {
   opacity: 0;
 }
-.${LIBRARY_ID}--input_button {
-  opacity: 0;
-  width: 0px;
-}
 .${LIBRARY_ID}--reset_button {
   font-size: 13px;
 }
@@ -89,6 +85,10 @@ const CSSNEW = `
 .${LIBRARY_ID}--import_button {
   font-size: 13px;
   margin-right: 6px;
+}
+.${LIBRARY_ID}--input_button {
+  opacity: 0;
+  width: 0px;
 }`;
 
   // ==Util Functions==
