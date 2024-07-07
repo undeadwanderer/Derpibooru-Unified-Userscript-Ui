@@ -535,7 +535,7 @@ const CSSNEW = `
         }]
       });
 
-      const b = document.querySelector('div[data-reset-all="1"]');
+      let b = document.querySelector('div[data-reset-all="1"]');
       if (b) {
         b.insertAdjacentElement('beforebegin', headerExportBtn);
         b.insertAdjacentElement('beforebegin', headerImportBtn);
