@@ -441,6 +441,8 @@ const CSSNEW = `
     });
 
     try {
+      
+      forkPatch();
       // 'input' used by original booru-on-rails
       // 'button' used by Philomena
       bindSaveHandler(document.querySelector('form[action="/settings"] button[type="submit"], form[action="/settings"] input[type="submit"]'));
@@ -940,6 +942,5 @@ const CSSNEW = `
 
   initStorage();
   initSettingsTab();
-  forkPatch();
   return ConfigManager;
 })();
