@@ -388,6 +388,16 @@ const CSSNEW = `
 
   }
 
+  function setForkStyles() {
+    if (!document.getElementById(`${LIBRARY_ID}-fork-style`)) {
+      const styleElement = document.createElement('style');
+      styleElement.setAttribute('type', 'text/css');
+      styleElement.id = `${LIBRARY_ID}-fork-style`;
+      styleElement.innerHTML = CSSNEW;
+      document.body.insertAdjacentElement('afterend', styleElement);
+    }
+  }
+  
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
     const settingTable = document.querySelector('#js-setting-table');
@@ -402,14 +412,6 @@ const CSSNEW = `
       styleElement.id = `${LIBRARY_ID}-style`;
       styleElement.innerHTML = CSS;
       document.body.insertAdjacentElement('afterend', styleElement);
-    }
-
-    if (!document.getElementById(`${LIBRARY_ID}-fork-style`)) {
-      const styleElement1 = document.createElement('style');
-      styleElement1.setAttribute('type', 'text/css');
-      styleElement1.id = `${LIBRARY_ID}-fork-style`;
-      styleElement1.innerHTML = CSSNEW;
-      document.body.insertAdjacentElement('afterend', styleElement1);
     }
 
     // Create tab
@@ -939,6 +941,7 @@ const CSSNEW = `
     setStorage(storage);
   };
 
+  setForkStyles();
   initStorage();
   initSettingsTab();
   return ConfigManager;
