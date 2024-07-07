@@ -7,7 +7,7 @@
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.5.2
+// @version       1.2.5.1
 
 // ==/UserScript==
 
@@ -291,6 +291,7 @@ const CSSNEW = `
       checkForUnsavedChanges();
     });
   }
+  // NEW: Export btn click function
   function bindExportHandler(exportBtn) {
 
     exportBtn.addEventListener('click', function(e) {
@@ -316,6 +317,7 @@ const CSSNEW = `
 
   }
 
+  // NEW: Import btn click function
   function bindImportHandler(importBtn) {
 
     importBtn.addEventListener('click', function(e) {
@@ -385,6 +387,16 @@ const CSSNEW = `
     });
 
   }
+
+  function setForkStyles() {
+    if (!document.getElementById(`${LIBRARY_ID}_fork-style`)) {
+      const styleElement = document.createElement('style');
+      styleElement.setAttribute('type', 'text/css');
+      styleElement.id = `${LIBRARY_ID}_fork-style`;
+      styleElement.innerHTML = CSSNEW;
+      document.body.insertAdjacentElement('afterend', styleElement);
+    }
+  }
   
   function initSettingsTab() {
     const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
@@ -415,23 +427,67 @@ const CSSNEW = `
     // Create tab content
     const tabContent = composeElement({
       tag: 'div',
-      attributes: {class: 'block__tab hidden', dataTab: SETTINGS_TAB_ID},
+      attributes: {
+        class: 'block__tab hidden',
+        dataTab: SETTINGS_TAB_ID
+      },
       children: [{
         tag: 'div',
-        attributes: {class: 'block block--fixed block--primary flex'},
+        attributes: {
+          class: 'block block--fixed block--primary flex'
+        },
         children: [{
           tag: 'span',
           text: 'Settings on this tab are managed by installed userscripts and stored locally.'
-        },{
+        }, {
+          // NEW: Global export button
           tag: 'div',
-          attributes: {class: `flex ${LIBRARY_ID}--reset_button`, dataResetAll: '1'},
+          attributes: {
+            class: `flex__right ${LIBRARY_ID}--export_button`,
+            dataExportAll: '1'
+          },
           children: [{
             tag: 'a',
-            attributes: {href: '#'},
+            attributes: {
+              href: '#'
+            },
+            text: 'Export all settings'
+          }]
+        }, {
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--import_button`,
+            dataImportAll: '1'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#'
+            },
+            text: 'Import data'
+          }, {
+            tag: 'input',
+            attributes: {
+              type: 'file',
+              accept: '.json',
+              class: `${LIBRARY_ID}--input_button`,
+            },
+          }]
+        }, {
+          tag: 'div',
+          attributes: {
+            class: `flex ${LIBRARY_ID}--reset_button`,
+            dataResetAll: '1'
+          },
+          children: [{
+            tag: 'a',
+            attributes: {
+              href: '#'
+            },
             text: 'Reset all settings'
           }]
         }]
-      },{
+      }, {
         tag: 'div',
         attributes: {
           class: `block block--fixed block--warning ${LIBRARY_ID}--unsaved_warning ${LIBRARY_ID}--hidden`
@@ -482,64 +538,6 @@ const CSSNEW = `
       }
     } catch (e) {
       console.log(e);
-    }
-  }
-
-  function forkPatch() {
-
-    if (!document.getElementById(`${LIBRARY_ID}_fork-style`)) {
-      const styleElement = document.createElement('style');
-      styleElement.setAttribute('type', 'text/css');
-      styleElement.id = `${LIBRARY_ID}_fork-style`;
-      styleElement.innerHTML = CSSNEW;
-      document.body.insertAdjacentElement('afterend', styleElement);
-    }
-    
-    if (document.querySelector('div[data-tab="userscript"]')) {
-      const headerExportBtn = composeElement({
-        tag: 'div',
-        attributes: {
-          class: `flex__right ${LIBRARY_ID}--export_button`,
-          dataExportAll: '1'
-        },
-        children: [{
-          tag: 'a',
-          attributes: {
-            href: '#'
-          },
-          text: 'Export all settings'
-        }]
-      });
-      const headerImportBtn = composeElement({
-        tag: 'div',
-        attributes: {
-          class: `flex ${LIBRARY_ID}--import_button`,
-          dataImportAll: '1'
-        },
-        children: [{
-          tag: 'a',
-          attributes: {
-            href: '#'
-          },
-          text: 'Import data'
-        }, {
-          tag: 'input',
-          attributes: {
-            type: 'file',
-            accept: '.json',
-            class: `${LIBRARY_ID}--input_button`
-          }
-        }]
-      });
-
-      const b = document.querySelector('div[data-reset-all="1"]');
-      if (b) {
-        b.insertAdjacentElement('beforebegin', headerExportBtn);
-        b.insertAdjacentElement('beforebegin', headerImportBtn);
-        if (b.classList.contains('flex__right')){
-          b.classList.replace('flex__right', 'flex');
-        }
-      }
     }
   }
 
@@ -597,7 +595,7 @@ const CSSNEW = `
         }, {
           tag: 'div',
           attributes: {
-            class: `flex__right ${LIBRARY_ID}--reset_button`,
+            class: `flex ${LIBRARY_ID}--reset_button`,
             dataResetAll: '0'
           },
           children: [{
@@ -938,8 +936,8 @@ const CSSNEW = `
     setStorage(storage);
   };
 
+  setForkStyles();
   initStorage();
   initSettingsTab();
-  forkPatch();
   return ConfigManager;
 })();
