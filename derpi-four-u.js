@@ -439,10 +439,10 @@ const CSSNEW = `
         text: 'You have unsaved changes.'
       }]
     });
+    
+    forkPatch();
 
     try {
-      
-      forkPatch();
       
       // 'input' used by original booru-on-rails
       // 'button' used by Philomena
