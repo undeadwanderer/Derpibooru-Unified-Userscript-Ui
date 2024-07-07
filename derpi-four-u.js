@@ -443,6 +443,7 @@ const CSSNEW = `
     try {
       
       forkPatch();
+      
       // 'input' used by original booru-on-rails
       // 'button' used by Philomena
       bindSaveHandler(document.querySelector('form[action="/settings"] button[type="submit"], form[action="/settings"] input[type="submit"]'));
@@ -542,8 +543,6 @@ const CSSNEW = `
           b.classList.replace('flex__right', 'flex');
         }
       }
-      bindExportHandler(ele.querySelector(`.${LIBRARY_ID}--export_button>a`));
-      bindImportHandler(ele.querySelector(`.${LIBRARY_ID}--import_button>a`));
     }
   }
 
@@ -621,6 +620,8 @@ const CSSNEW = `
       }]
     });
     bindResetHandler(ele.querySelector(`.${LIBRARY_ID}--reset_button>a`));
+    bindExportHandler(ele.querySelector(`.${LIBRARY_ID}--export_button>a`));
+    bindImportHandler(ele.querySelector(`.${LIBRARY_ID}--import_button>a`));
 
     appendDescription(ele.lastChild, description);
     ele.addEventListener('change', checkForUnsavedChanges); // attach handler to show warning when input value changed
