@@ -7,7 +7,7 @@
 // @name          Derpibooru Unified Userscript UI Utility
 // @description   A simple userscript library for script authors to implement user-changeable settings on Derpibooru
 // @license       MIT
-// @version       1.2.5
+// @version       1.2.5.1
 
 // ==/UserScript==
 
@@ -51,14 +51,6 @@ var ConfigManager = (function() {
 .${LIBRARY_ID}--unsaved_warning.${LIBRARY_ID}--hidden {
   opacity: 0;
 }
-.${LIBRARY_ID}--export_button {
-  font-size: 13px;
-  margin-right: 6px;
-}
-.${LIBRARY_ID}--import_button {
-  font-size: 13px;
-  margin-right: 6px;
-}
 .${LIBRARY_ID}--input_button {
   opacity: 0;
   width: 0px;
@@ -89,6 +81,15 @@ var ConfigManager = (function() {
   margin-right: 4px
 }
 `;
+const CSSNEW = `
+.${LIBRARY_ID}--export_button {
+  font-size: 13px;
+  margin-right: 6px;
+}
+.${LIBRARY_ID}--import_button {
+  font-size: 13px;
+  margin-right: 6px;
+}`;
 
   // ==Util Functions==
   /** Modified from https://gist.github.com/MoOx/8614711
@@ -398,7 +399,7 @@ var ConfigManager = (function() {
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
       styleElement.id = `${LIBRARY_ID}-style`;
-      styleElement.innerHTML = CSS;
+      styleElement.innerHTML = CSS + CSSNEW;
       document.body.insertAdjacentElement('afterend', styleElement);
     }
 
