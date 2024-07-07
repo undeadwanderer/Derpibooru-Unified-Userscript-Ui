@@ -399,7 +399,8 @@ const CSSNEW = `
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
       styleElement.id = `${LIBRARY_ID}-style`;
-      styleElement.innerHTML = CSS + CSSNEW;
+      styleElement.innerHTML = CSS;
+      styleElement.innerHTML += CSSNEW;
       document.body.insertAdjacentElement('afterend', styleElement);
     }
 
@@ -460,7 +461,9 @@ const CSSNEW = `
             attributes: {
               type: 'file',
               accept: '.json',
-              class: `${LIBRARY_ID}--input_button`
+              class: `${LIBRARY_ID}--input_button`,
+              hidden: '',
+              style: 'display:none'
             },
           }]
         }, {
@@ -581,7 +584,9 @@ const CSSNEW = `
             attributes: {
               type: 'file',
               accept: '.json',
-              class: `${LIBRARY_ID}--input_button`
+              class: `${LIBRARY_ID}--input_button`,
+              hidden: '',
+              style: 'display:none'
             },
           }]
         }, {
