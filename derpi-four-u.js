@@ -389,10 +389,10 @@ const CSSNEW = `
   }
 
   function setForkStyles() {
-    if (!document.getElementById(`${LIBRARY_ID}-fork-style`)) {
+    if (!document.getElementById(`${LIBRARY_ID}_fork-style`)) {
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
-      styleElement.id = `${LIBRARY_ID}-fork-style`;
+      styleElement.id = `${LIBRARY_ID}_fork-style`;
       styleElement.innerHTML = CSSNEW;
       document.body.insertAdjacentElement('afterend', styleElement);
     }
