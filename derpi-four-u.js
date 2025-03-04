@@ -21,7 +21,8 @@
 //    Failed to read the 'localStorage' property from 'Window': The document is sandboxed and lacks the 'allow-same-origin' flag.
 //
 // This error occurs when script is executed inside an iframe, such as when the userscript didn't include the @noframes imperative.
-if (window.self !== window.top || !document.head.querySelector('meta[content="philomena"]') return; // Exit when inside iframe
+if (window.self !== window.top) return; // Exit when inside iframe
+if (!document.head.querySelector('meta[content="philomena"]')) return;
 
 var ConfigManager = (function() {
   'use strict';
