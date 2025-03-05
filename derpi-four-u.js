@@ -389,7 +389,11 @@ const CSSNEW = `
   }
 
   function setForkStyles() {
-    if (!document.getElementById(`${LIBRARY_ID}_fork-style`) && (document.getElementById(`${LIBRARY_ID}-style`)) && SETTINGS_PAGE) {
+    if (!document.getElementById(`${LIBRARY_ID}_fork-style`) && document.getElementById(`${LIBRARY_ID}-style`)) {
+      const userscriptTabContent = document.querySelector(`[data-tab="${SETTINGS_TAB_ID}"]`);
+      if (!SETTINGS_PAGE || userscriptTabContent !== null) {
+        return;
+      }
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
       styleElement.id = `${LIBRARY_ID}_fork-style`;
