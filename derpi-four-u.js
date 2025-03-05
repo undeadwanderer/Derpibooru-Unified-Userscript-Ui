@@ -22,7 +22,6 @@
 //
 // This error occurs when script is executed inside an iframe, such as when the userscript didn't include the @noframes imperative.
 if (window.self !== window.top) return; // Exit when inside iframe
-if (!document.head.querySelector('meta[content="philomena"]')) return;
 
 var ConfigManager = (function() {
   'use strict';
@@ -390,7 +389,7 @@ const CSSNEW = `
   }
 
   function setForkStyles() {
-    if (!document.getElementById(`${LIBRARY_ID}_fork-style`)) {
+    if (!document.getElementById(`${LIBRARY_ID}_fork-style`) && (!document.getElementById(`${LIBRARY_ID}-style`))) {
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
       styleElement.id = `${LIBRARY_ID}_fork-style`;
@@ -937,8 +936,8 @@ const CSSNEW = `
     setStorage(storage);
   };
 
-  setForkStyles();
   initStorage();
   initSettingsTab();
+  setForkStyles();
   return ConfigManager;
 })();
