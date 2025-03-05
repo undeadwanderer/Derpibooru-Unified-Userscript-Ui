@@ -389,7 +389,7 @@ const CSSNEW = `
   }
 
   function setForkStyles() {
-    if (!document.getElementById(`${LIBRARY_ID}_fork-style`) && window.location.pathname.includes('/settings')) {
+    if (!document.getElementById(`${LIBRARY_ID}_fork-style`) && (document.getElementById(`${LIBRARY_ID}-style`)) && (window.location.pathname.includes('/settings'))) {
       const styleElement = document.createElement('style');
       styleElement.setAttribute('type', 'text/css');
       styleElement.id = `${LIBRARY_ID}_fork-style`;
